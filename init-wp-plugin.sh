@@ -211,6 +211,14 @@ ensure_plugin_core_files() {
 		define('${PLUGIN_GENERIC_PREFIX_UPPER}_LOADED', true);
 
 		/**
+		 * Contains the plug-in identifier, used internally in various places, 
+		 *  such as an option prefix.
+		 * 
+		 * @var boolean ${PLUGIN_GENERIC_PREFIX_UPPER}_PLUGIN_ID Set to true
+		 */
+		define('${PLUGIN_GENERIC_PREFIX_UPPER}_PLUGIN_ID', '${PLUGIN_GENERIC_PREFIX}');
+
+		/**
 		 * The absolute path to the plug-in's installation directory.
 		 *  Eg. /whatever/public_html/wp-content/plugins/whatever-plugin.
 		 * 
@@ -257,6 +265,35 @@ ensure_plugin_core_files() {
 		define('${PLUGIN_GENERIC_PREFIX_UPPER}_LIB_DIR', ${PLUGIN_GENERIC_PREFIX_UPPER}_PLUGIN_ROOT . '/lib');
 
 		/**
+		 * The absolute path to the plug-in's views - views - directory.
+		 *  This is where all the templates are stored.
+		 *  Eg. /whatever/public_html/wp-content/plugins/whatever-plugin/views.
+		 * 
+		 * @var string ${PLUGIN_GENERIC_PREFIX_UPPER}_VIEWS_DIR The computed path
+		 */
+		define('${PLUGIN_GENERIC_PREFIX_UPPER}_VIEWS_DIR', ${PLUGIN_GENERIC_PREFIX_UPPER}_PLUGIN_ROOT . '/views');
+
+		/**
+		 * The absolute path to the plug-in's translation files - lang - directory.
+		 *  This is where all the translation files (.po, .mo, .pot) are stored.
+		 *  Eg. /whatever/public_html/wp-content/plugins/whatever-plugins/lang.
+		 * 
+		 * @var string ${PLUGIN_GENERIC_PREFIX_UPPER}_LANG_DIR The computed path
+		 */
+		define('${PLUGIN_GENERIC_PREFIX_UPPER}_LANG_DIR', ${PLUGIN_GENERIC_PREFIX_UPPER}_PLUGIN_ROOT . '/lang');
+
+		/**
+		 * The absolute path to the plug-in's own data files - data - directory.
+		 *  This is where all the data files that are bundled 
+		 * 	(that is, not generated during normal usage) 
+		 *	with the plug-in are stored.
+		 *  Eg. /whatever/public_html/wp-content/plugins/whatever-plugins/data.
+		 * 
+		 * @var string ${PLUGIN_GENERIC_PREFIX_UPPER}_DATA_DIR The computed path
+		 */
+		define('${PLUGIN_GENERIC_PREFIX_UPPER}_DATA_DIR', ${PLUGIN_GENERIC_PREFIX_UPPER}_PLUGIN_ROOT . '/data');
+
+		/**
 		 * The current version of $PLUGIN_NAME.
 		 *  Eg. 0.1.0.
 		 * 
@@ -289,7 +326,13 @@ ensure_plugin_core_files() {
 		 * @return \\${plugin_namespace}\Env The current environment accessor instance
 		 */
 		function ${PLUGIN_GENERIC_PREFIX}_get_env() {
+		    static \$env = null;
+   
+		    if (\$env === null) {
+		        \$env = new \\${plugin_namespace}\Env();
+		    }
 
+		    return \$env;
 		}
 
 		/**
@@ -298,7 +341,18 @@ ensure_plugin_core_files() {
 		 * @return \\${plugin_namespace}\Plugin The current plugin instance
 		 */
 		function ${PLUGIN_GENERIC_PREFIX}_plugin() {
+		    static \$plugin = null;
 
+		    if (\$plugin === null) {
+		        \$plugin = new \\${plugin_namespace}\Plugin(array(
+		            'mediaIncludes' => array(
+		                'refPluginsPath' => ${PLUGIN_GENERIC_PREFIX_UPPER}_PLUGIN_MAIN,
+		                'scriptsInFooter' => true
+		            )
+		        ));
+		    }
+
+		    return \$plugin;
 		}
 
 		/**

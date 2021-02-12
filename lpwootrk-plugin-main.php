@@ -10,6 +10,10 @@
  * Text Domain: livepayments-wootracker
  */
 
+/**
+ * Copyright (c) 2021-2021 LiveDesign SRL
+ */
+
 //Check that we're not being directly called
 defined('ABSPATH') or die;
 

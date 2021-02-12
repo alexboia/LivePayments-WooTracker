@@ -52,14 +52,14 @@ define( 'DB_COLLATE', '' );
  * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}
  */
 
-define('AUTH_KEY',         'gkAU_6X/XF6/4Qyz}Y<Mg7*|$BcYk4L2KttXwZLA]<#Vkmdfi,=JjDaeT?I_uKJ:');
-define('SECURE_AUTH_KEY',  '3<|Sp}OOOiK%RG_v*+vOG<{ HX^)WyG4M[;Z486K>~8~J4hgC8a-zyCk}hG|aY~:');
-define('LOGGED_IN_KEY',    'tgZl+N[=?qnz)nVy&D+;xCwLIc`@0|,U<r9,|Go|#9$>T5JFw2byO@N 5ndW>M3d');
-define('NONCE_KEY',        '.H34H_Be^kd_I_|_1&RUkwZ_PKI|(]D?hz1/]UaoniS[m -3Liz(/D=5rQ2LWixF');
-define('AUTH_SALT',        '6[lJ>$e4Ynbulxxz,nrNw{~{}@1|/,-KZDE+!mylD-+={jHApcB6UDc$8Y8-a:Yw');
-define('SECURE_AUTH_SALT', '/Yar42d-kgklEgJ/f+h!$)Qy|FG)@<O5rIIWRA,_Bw[`;6e[viKjCq=_+r]q<3@u');
-define('LOGGED_IN_SALT',   'X{zN/vl!QfJ(d#{WG@=~RmRQd(QH8|k.|FcaR,>k`DoS&Q+9K(uYIU@-|x+6F<)0');
-define('NONCE_SALT',       'Ua%(zgp0AN@E4rh|85aycOEtFV{*Mf51F^1:gwh5hGUpSRe^`|}W-~dHMMv!3 8t');
+define('AUTH_KEY',         'i8{o5-0w)wU/}e,|e=u@d/wiDisZ8<BF2(My1g}qanBx,V6MH/_%(9US8pmD>I)%');
+define('SECURE_AUTH_KEY',  ':1#v.(h_O3-o7/{l4vb*sc7MtXrsS]f{P!5#aM/G]Qq-o6>K+gjRfAP}P)pD`ryw');
+define('LOGGED_IN_KEY',    '87!g4!M JRj+60ZmZ-}QhJ@WP7D^oonlcdqeu<C[v---z*SZwT5Las;+(w#`[#D~');
+define('NONCE_KEY',        'Gb)%-|iD:w3CmU2CL/d&W@kDU~jvc,c:!uRh@afBekgjVU.0P)h)T<AgNd(Uk]{8');
+define('AUTH_SALT',        'atz?GOh=n?YLgR(i_JY6/vF&Q0D1FGm-g{ZehdU|a*-Bp~V(mLU75ds1:Tb P&;c');
+define('SECURE_AUTH_SALT', 'rzwEm9jUy#)io$Qh<9a?d-0C2%20A*w6`P0=GnAd)*5SFI>M^[4uk=,C u)}j+5p');
+define('LOGGED_IN_SALT',   'j;tcr9kUX}549hy}by!oAS@eT+-)$=sA}Hea=!S#g<9X]IjmVF*^.F35h{r!c!c(');
+define('NONCE_SALT',       'oZ-Wp8mFh(|Y>sR5-6@&Q*t4n&=IUkk32@XVdu95TX$7:zpoT:S5h;8<-j?IIrmd');
 
 /**
  * Table prefix.

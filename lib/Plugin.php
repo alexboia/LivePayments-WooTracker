@@ -4,7 +4,9 @@
  */
 
 namespace LivepaymentsWootracker {
-    class Plugin {
+	use LivepaymentsWootracker\PluginModules\PluginSettingsModule;
+
+	class Plugin {
         /**
          * @var \LivepaymentsWootracker\Env
          */
@@ -70,7 +72,9 @@ namespace LivepaymentsWootracker {
         }
 
         private function _initModules() {
-
+			$this->_pluginModules = array(
+				new PluginSettingsModule($this)
+			);
         }
 
         public function run() {
@@ -191,7 +195,7 @@ namespace LivepaymentsWootracker {
 		private function _registerMissingPluginsWarning() {
             add_action('admin_notices', array($this, 'onAdminNoticesRenderMissingPluginsWarning'));
         }
-		
+
 		public function onAdminNoticesRenderMissingPluginsWarning() {
             $data = new \stdClass();
             $data->missingPlugins = $this->_pluginDependencyChecker
@@ -203,6 +207,14 @@ namespace LivepaymentsWootracker {
 		public function onPluginsInit() {
             $this->_loadTextDomain();
             $this->_installer->updateIfNeeded();
+        }
+
+        public function getPluginSettingsScriptTranslations() {
+            return TranslatedScriptMessages::getPluginSettingsScriptTranslations();
+        }
+
+        public function getCommonScriptTranslations() {
+            return TranslatedScriptMessages::getCommonScriptTranslations();
         }
 
         public function getEnv() {

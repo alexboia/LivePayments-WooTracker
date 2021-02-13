@@ -20,3 +20,5 @@ defined('ABSPATH') or die;
 require_once __DIR__ . '/lpwootrk-plugin-header.php';
 require_once __DIR__ . '/lpwootrk-plugin-functions.php';
 
+lpwootrk_init_autoloader();
+lpwootrk_run();

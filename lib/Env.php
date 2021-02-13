@@ -109,6 +109,10 @@ namespace LivepaymentsWootracker {
             }
         }
 
+        public function isViewingAdminPluginSettingsPage() {
+            return $this->isViewingAdminPageSlug('lpwootrk-plugin-settings');
+        }
+
         public function isViewingAdminPageSlug($slug) {
             return is_admin() 
                 && $this->getCurrentAdminPage() == 'admin.php' 

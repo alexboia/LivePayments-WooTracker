@@ -1,2 +1,2 @@
 # LivePayments-WooTracker
-A WooCommerce-Enhanced ECommerce tracking integration plug-in
+A WooCommerce - Enhanced Google Analytics E-Commerce tracking integration plug-in

@@ -49,6 +49,10 @@ namespace LivepaymentsWootracker {
             $this->_env = lpwootrk_get_env();
         }
 
+        public static function wasInstallationTestSuccessful($testInstallationErrorCode) {
+            return $testInstallationErrorCode === self::INSTALL_OK;
+        }
+
         /**
          * Checks the current plug-in package version, the currently installed version
          *  and runs the update operation if they differ

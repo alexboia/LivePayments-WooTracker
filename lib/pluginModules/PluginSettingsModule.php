@@ -4,6 +4,8 @@
  */
 
 namespace LivepaymentsWootracker\PluginModules {
+
+    use LivepaymentsCx\Settings;
     use LivepaymentsWootracker\Plugin;
     use LivepaymentsWootracker\PluginMenu;
 
@@ -75,19 +77,16 @@ namespace LivepaymentsWootracker\PluginModules {
                 die;
             }
 
+            $settings = $this->_getSettings();
+
             $data = new \stdClass();
             $data->ajaxBaseUrl = $this->_getAjaxBaseUrl();
             $data->saveSettingsAction = self::ACTION_SAVE_SETTINGS;
             $data->saveSettingsNonce = $this->_saveSettingsAction
                 ->generateNonce();
 
-            $data->settings = new \stdClass();
-            $data->settings->gtmTrackingId = '';
-            $data->settings->trackOrderReceived = true;
-            $data->settings->trackCartItemRemoved = true;
-            $data->settings->trackCartItemAdded = true;
-            $data->settings->trackCheckoutBegin = true;
-            $data->settings->trackCheckoutProgress = true;
+            $data->settings = $settings
+                ->asPlainObject();
 
             echo $this->_viewEngine->renderView('lpwootrk-plugin-settings.php', 
                 $data);
@@ -97,6 +96,44 @@ namespace LivepaymentsWootracker\PluginModules {
             if (!$this->_env->isHttpPost()) {
                 die;
             }
+
+            $settings = $this->_getSettings();
+            $response = lpwootrk_get_ajax_response();
+
+            $gtmTrackingId = $this->_getTextInputFromHttpPost('gtmTrackingId');
+
+            $trackOrderReceived = $this->_getBooleanFromHttpPost('trackOrderReceived');
+            $trackCartItemAdded = $this->_getBooleanFromHttpPost('trackCartItemAdded');
+            $trackCartItemRemoved = $this->_getBooleanFromHttpPost('trackCartItemRemoved');
+            $trackCheckoutBegin = $this->_getBooleanFromHttpPost('trackCheckoutBegin');
+            $trackCheckoutProgress = $this->_getBooleanFromHttpPost('trackCheckoutProgress');
+
+            $settings->setGtmTrackingId($gtmTrackingId);
+            $settings->setTrackOrderReceived($trackOrderReceived);
+            $settings->setTrackCartItemAdded($trackCartItemAdded);
+            $settings->setTrackCartItemRemoved($trackCartItemRemoved);
+            $settings->setTrackCartCheckoutBegin($trackCheckoutBegin);
+            $settings->setTrackCartCheckoutProgress($trackCheckoutProgress);
+
+            if ($settings->saveSettings()) {
+                $response->success = true;
+            } else {
+                $response->message = esc_html__('The settings could not be saved. Please try again.', 'livepayments-wootracker');
+            }
+
+            return $response;
+        }
+
+        private function _getBooleanFromHttpPost($key, $truthyVal = '1') {
+            isset($_POST[$key])
+                ? $_POST[$key] === $truthyVal
+                : false;
+        }
+
+        private function _getTextInputFromHttpPost($key) {
+            return isset($_POST[$key])
+                ? sanitize_text_field($_POST[$key])
+                : '';
         }
     }
 }

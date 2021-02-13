@@ -114,6 +114,13 @@ if (!function_exists('write_log')) {
 }
 
 /**
+ * @return \LivepaymentsWootracker\Settings 
+ */
+function lpwootrk_get_settings() {
+	return \LivepaymentsWootracker\Settings::getInstance();
+ }
+
+/**
  * Returns the current environment accessor instance
  * 
  * @return \LivepaymentsWootracker\Env The current environment accessor instance

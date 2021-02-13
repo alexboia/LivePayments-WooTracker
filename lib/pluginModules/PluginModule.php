@@ -61,6 +61,10 @@ namespace LivepaymentsWootracker\PluginModules {
             return $this->_env->getAjaxBaseUrl();
         }
 
+        protected function _getSettings() {
+            return lpwootrk_get_settings();
+        }
+
         protected function _getDb() {
             return $this->_env->getDb();
         }

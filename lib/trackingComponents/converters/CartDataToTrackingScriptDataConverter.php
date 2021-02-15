@@ -56,17 +56,13 @@ namespace LivepaymentsWootracker\TrackingComponents\Converters {
 
             if ($product instanceof WC_Product) {
                 $itemTrackingData = new \stdClass();
-                $itemTrackingData->id = $product->get_sku();
-                if (empty($itemTrackingData->id)) {
-                    $itemTrackingData->id = $product->get_id();
-                }
-
-                $itemTrackingData->name = $product->get_name();
+                $itemTrackingData->id = WcProductHelpers::getProductIdForTracking($product);
+                $itemTrackingData->name = WcProductHelpers::getProductNameForTracking($product);
                 $itemTrackingData->category = WcProductHelpers::getProductCategoryNameForTracking($product);
                 $itemTrackingData->variant = WcProductHelpers::getProductVariantNameforTracking($product);
 
                 $itemTrackingData->quantity = $cartItem['quantity'];
-                $itemTrackingData->price = floatval($product->get_price());
+                $itemTrackingData->price = WcProductHelpers::getProductPriceForTracking($product);
             }
 
             return $itemTrackingData;

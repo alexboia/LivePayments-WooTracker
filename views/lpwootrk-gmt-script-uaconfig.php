@@ -14,6 +14,10 @@
         }
 
         gtag('js', new Date());
-        gtag('config', '<?php echo esc_js($data->gaMeasurementId); ?>');
+        gtag('config', '<?php echo esc_js($data->gaMeasurementId); ?>', {
+            <?php if (!empty($data->globalCurrency)): ?>
+                currency: '<?php echo esc_js($data->globalCurrency); ?>'
+            <?php endif; ?>
+        });
     </script>
 <?php endif; ?>

@@ -7,7 +7,7 @@ namespace LivepaymentsWootracker {
 	use LivepaymentsWootracker\PluginModules\PluginSettingsModule;
     use LivepaymentsWootracker\PluginModules\TrackingModule;
 
-class Plugin {
+    class Plugin {
         /**
          * @var \LivepaymentsWootracker\Env
          */

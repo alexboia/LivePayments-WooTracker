@@ -148,6 +148,10 @@ namespace LivepaymentsWootracker {
             return is_checkout_pay_page();
         }
 
+        public function isAtProductDetailsPage() {
+            return is_product();
+        }
+
         public function getDbHost() {
             return $this->_dbHost;
         }

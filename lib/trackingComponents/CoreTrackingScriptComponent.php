@@ -59,6 +59,7 @@ namespace LivepaymentsWootracker\TrackingComponents {
             $data = new \stdClass();
             $data->gtmTrackingId = $this->_settings->getGtmTrackingId();
             $data->gaMeasurementId = $this->_settings->getGaMeasurementId();
+            $data->globalCurrency = get_woocommerce_currency();
             return $data;
         }
     }

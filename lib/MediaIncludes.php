@@ -27,6 +27,8 @@ namespace LivepaymentsWootracker {
 
         const JS_LPWOOTRK_TRACKING_SCRIPT_ORDER_RECEIVED = 'lpwootrk-tracking-script-order-received-js';
 
+        const JS_LPWOOTRK_TRACKING_SCRIPT_SINGLE_PRODUCT = 'lpwootrk-tracking-script-single-product-js';
+
         const STYLE_TOASTR = 'toastr-css';
 
         const STYLE_LPWOOTRK_COMMON = 'lpwootrk-common-css';
@@ -118,6 +120,14 @@ namespace LivepaymentsWootracker {
                     self::JS_JQUERY,
                     self::JS_LPWOOTRK_TRACKING_SCRIPT
                 )
+            ),
+            self::JS_LPWOOTRK_TRACKING_SCRIPT_SINGLE_PRODUCT => array(
+                'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-single-product.js',
+                'version' => LPWOOTRK_VERSION,
+                'deps' => array(
+                    self::JS_JQUERY,
+                    self::JS_LPWOOTRK_TRACKING_SCRIPT
+                )
             )
         );
 
@@ -180,6 +190,10 @@ namespace LivepaymentsWootracker {
 
         public function includeTrackingScriptForOrderReceived() {
             $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_ORDER_RECEIVED);
+        }
+
+        public function includeTrackingScriptForSingleProduct() {
+            $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_SINGLE_PRODUCT);
         }
 
         public function includeStyleCommon() {

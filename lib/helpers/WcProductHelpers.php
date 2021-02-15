@@ -5,12 +5,35 @@
 
 namespace LivepaymentsWootracker\Helpers {
     use WC_Product;
+    use WC_Product_Variation;
 
     class WcProductHelpers {
+        public static function getProductNameForTracking(WC_Product $product) {
+            return $product->get_title();
+        }
+
+        public static function getProductIdForTracking(WC_Product $product) {
+            $id = $product->get_sku();
+            if (empty($id)) {
+                $id = $product->get_id();
+            }
+            return $id;
+        }
+
+        public static function getProductPriceForTracking(WC_Product $product) {
+            $price = 0;
+            if ($product->get_sale_price() > 0) {
+                $price = floatval($product->get_sale_price());
+            } else {
+                $price = floatval($product->get_price());
+            }
+            return $price;
+        }
+
         public static function getProductVariantNameforTracking(WC_Product $product) {
             $variant = '';
             if ($product instanceof WC_Product_Variation) {
-                $variant = wc_get_formatted_variation($product, true, true, true);
+                $variant = wc_get_formatted_variation($product, true, false, false);
             }
 
             return $variant;

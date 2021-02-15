@@ -1,4 +1,4 @@
-    /**
+/**
  * Copyright (c) 2021-2021 LiveDesign SRL
  */
 
@@ -11,10 +11,10 @@
             if (!!trackingData) {
                 gtag('event', eventName, trackingData);
             } else {
-                console.warn('Tracking data not set. Ignoring.');
+                console.warn('[Livepayments WooTracker] Tracking data not set. Ignoring.');
             }            
         } else {
-            console.warn('gtag() not found.');
+            console.warn('[Livepayments WooTracker] gtag() not found.');
         }
     }
 

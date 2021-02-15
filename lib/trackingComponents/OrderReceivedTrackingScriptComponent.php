@@ -6,6 +6,7 @@
 namespace LivepaymentsWootracker\TrackingComponents {
     use LivepaymentsWootracker\Plugin;
     use LivepaymentsWootracker\TrackingComponents\Converters\OrderDataToTrackingScriptDataConverter;
+    use LivepaymentsWootracker\WcOrderHandler;
 
     class OrderReceivedTrackingScriptComponent extends TrackingComponent {
         public function __construct(Plugin $plugin) {
@@ -53,10 +54,7 @@ namespace LivepaymentsWootracker\TrackingComponents {
         }
 
         public function onOrderThankYouAddTrackingScriptData($orderId) {
-            $data = new \stdClass();
-            $data->trackingScriptDataName = 'purchaseTrackingScriptData';
-            $data->trackingScriptData = $this->_getOrderPurchaseTrackingData($orderId);
-            echo $this->_viewEngine->renderView('lpwootrk-tracking-script-data.php', $data);
+            $this->_addTrackingScriptData($orderId);
         }
 
         private function _registerOrderReceiptTracking() {
@@ -68,9 +66,23 @@ namespace LivepaymentsWootracker\TrackingComponents {
         }
 
         public function onOrderReceiptAddTrackingScriptData($orderId) {
+            $this->_addTrackingScriptData($orderId);
+        }
+
+        private function _addTrackingScriptData($orderId) {
+            $orderHandler = $this->_getOrderHandler($orderId);
+
             $data = new \stdClass();
             $data->trackingScriptDataName = 'purchaseTrackingScriptData';
-            $data->trackingScriptData = $this->_getOrderPurchaseTrackingData($orderId);
+
+            if (!$orderHandler->isOrderPurchaseEventTracked()) {
+                $data->trackingScriptData = $this->_getOrderPurchaseTrackingData($orderId);
+                $orderHandler->setOrderPurchaseEventTracked();
+                $orderHandler->save();
+            } else {
+                $data->trackingScriptData = null;
+            }
+
             echo $this->_viewEngine->renderView('lpwootrk-tracking-script-data.php', $data);
         }
 
@@ -89,6 +101,10 @@ namespace LivepaymentsWootracker\TrackingComponents {
         private function _getOrderPurchaseTrackingData($orderId) {
             return OrderDataToTrackingScriptDataConverter::fromOrderId($orderId)
                 ->getOrderTrackingData();
+        }
+
+        private function _getOrderHandler($orderId) {
+            return WcOrderHandler::forOrder($orderId);
         }
     }
 }

@@ -3,7 +3,9 @@
  * Copyright (c) 2021-2021 LiveDesign SRL
  */
 
-namespace LivepaymentsWootracker\TrackingComponents {
+namespace LivepaymentsWootracker\TrackingComponents\Converters {
+
+    use LivepaymentsWootracker\Helpers\WcProductHelpers;
     use WC_Order;
     use WC_Order_Item;
     use WC_Order_Item_Product;
@@ -62,36 +64,13 @@ namespace LivepaymentsWootracker\TrackingComponents {
             }
 
             $itemTrackingData->name = $product->get_name();
-            $itemTrackingData->category = $this->_getProductCategoryNameForTracking($product);
-
-            if ($product instanceof WC_Product_Variation) {
-                $itemTrackingData->variant = wc_get_formatted_variation($product, true, true, true);
-            } else {
-                $itemTrackingData->variant = '';
-            }
+            $itemTrackingData->category = WcProductHelpers::getProductCategoryNameForTracking($product);
+            $itemTrackingData->variant = WcProductHelpers::getProductVariantNameforTracking($product);
 
             $itemTrackingData->quantity = $item->get_quantity();
             $itemTrackingData->price = $this->_roundNumber($item->get_total() / $item->get_quantity());
 
             return $itemTrackingData;
-        }
-
-        private function _getProductCategoryNameForTracking(WC_Product $product) {
-            $name = '';
-            $categoryIds = $product->get_category_ids();
-            
-            if (!empty($categoryIds) && is_array($categoryIds)) {
-                $name = $this->_getProductCategoryName($categoryIds[0]);
-            }
-
-            return $name;
-        }
-
-        private function _getProductCategoryName($categoryId) {
-            $term = get_term($categoryId, 'product_cat', OBJECT, 'raw');
-            return !empty($term) 
-                ? $term->name 
-                : '';
         }
 
         private function _roundNumber($number) {

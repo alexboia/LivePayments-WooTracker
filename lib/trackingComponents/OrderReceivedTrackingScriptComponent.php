@@ -5,6 +5,7 @@
 
 namespace LivepaymentsWootracker\TrackingComponents {
     use LivepaymentsWootracker\Plugin;
+    use LivepaymentsWootracker\TrackingComponents\Converters\OrderDataToTrackingScriptDataConverter;
 
     class OrderReceivedTrackingScriptComponent extends TrackingComponent {
         public function __construct(Plugin $plugin) {

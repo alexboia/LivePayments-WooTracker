@@ -3,7 +3,9 @@
  * Copyright (c) 2021-2021 LiveDesign SRL
  */
 
-namespace LivepaymentsWootracker\TrackingComponents {
+namespace LivepaymentsWootracker\TrackingComponents\Converters {
+
+    use LivepaymentsWootracker\Helpers\WcProductHelpers;
     use WC_Cart;
     use WC_Product;
     use WC_Product_Variation;
@@ -60,37 +62,14 @@ namespace LivepaymentsWootracker\TrackingComponents {
                 }
 
                 $itemTrackingData->name = $product->get_name();
-                $itemTrackingData->category = $this->_getProductCategoryNameForTracking($product);
-
-                if ($product instanceof WC_Product_Variation) {
-                    $itemTrackingData->variant = wc_get_formatted_variation($product, true, true, true);
-                } else {
-                    $itemTrackingData->variant = '';
-                }
+                $itemTrackingData->category = WcProductHelpers::getProductCategoryNameForTracking($product);
+                $itemTrackingData->variant = WcProductHelpers::getProductVariantNameforTracking($product);
 
                 $itemTrackingData->quantity = $cartItem['quantity'];
                 $itemTrackingData->price = floatval($product->get_price());
             }
 
             return $itemTrackingData;
-        }
-
-        private function _getProductCategoryNameForTracking(WC_Product $product) {
-            $name = '';
-            $categoryIds = $product->get_category_ids();
-            
-            if (!empty($categoryIds) && is_array($categoryIds)) {
-                $name = $this->_getProductCategoryName($categoryIds[0]);
-            }
-
-            return $name;
-        }
-
-        private function _getProductCategoryName($categoryId) {
-            $term = get_term($categoryId, 'product_cat', OBJECT, 'raw');
-            return !empty($term) 
-                ? $term->name 
-                : '';
         }
     }
 }

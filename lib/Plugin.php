@@ -5,8 +5,9 @@
 
 namespace LivepaymentsWootracker {
 	use LivepaymentsWootracker\PluginModules\PluginSettingsModule;
+    use LivepaymentsWootracker\PluginModules\TrackingModule;
 
-	class Plugin {
+class Plugin {
         /**
          * @var \LivepaymentsWootracker\Env
          */
@@ -73,7 +74,8 @@ namespace LivepaymentsWootracker {
 
         private function _initModules() {
 			$this->_pluginModules = array(
-				new PluginSettingsModule($this)
+				new PluginSettingsModule($this),
+                new TrackingModule($this)
 			);
         }
 
@@ -232,6 +234,10 @@ namespace LivepaymentsWootracker {
 		public function getInstaller() {
 			return $this->_installer;
 		}
+
+        public function getSettings() {
+            return lpwootrk_get_settings();
+        }
 
         private function _loadTextDomain() {
             load_plugin_textdomain('livepayments-wootracker', 

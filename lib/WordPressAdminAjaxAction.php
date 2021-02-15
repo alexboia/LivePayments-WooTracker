@@ -17,7 +17,7 @@ namespace LivepaymentsWootracker {
 
         private $_requiredCapability = null;
 
-        public function __construct($actionCode, $callback, $nonceUrlParam = 'lvdwcmc_nonce') {
+        public function __construct($actionCode, $callback, $nonceUrlParam = 'lpwootrk_nonce') {
             $this->_actionCode = $actionCode;
             $this->_callback = $callback;
             $this->_nonceUrlParam = $nonceUrlParam;

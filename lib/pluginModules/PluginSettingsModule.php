@@ -125,7 +125,7 @@ namespace LivepaymentsWootracker\PluginModules {
         }
 
         private function _getBooleanFromHttpPost($key, $truthyVal = '1') {
-            isset($_POST[$key])
+            return isset($_POST[$key])
                 ? $_POST[$key] === $truthyVal
                 : false;
         }

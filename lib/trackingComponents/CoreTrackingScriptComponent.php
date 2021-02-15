@@ -1,0 +1,55 @@
+<?php 
+/**
+ * Copyright (c) 2021-2021 LiveDesign SRL
+ */
+
+namespace LivepaymentsWootracker\TrackingComponents {
+    use LivepaymentsWootracker\Plugin;
+
+    class CoreTrackingScriptComponent extends TrackingComponent {
+        const WP_HEAD_HOOK_PRIORITY = 9998;
+
+        const WP_BODY_OPEN_HOOK_PRIORITY = 0;
+
+        public function __construct(Plugin $plugin) {
+            parent::__construct($plugin);
+        }
+
+        protected function _isComponentEnabled() {
+            return true;
+        }
+
+        public function enqueueStyles() {
+            return;
+        }
+
+        public function enqueueScripts() {
+            return;
+        }
+
+        public function load() {
+            add_action('wp_head', 
+                array($this, 'onWpHead'), 
+                self::WP_HEAD_HOOK_PRIORITY);
+            add_action('wp_body_open', 
+                array($this, 'onWpBodyOpen'), 
+                self::WP_BODY_OPEN_HOOK_PRIORITY);
+        }
+
+        public function onWpHead() {
+            $data = $this->_getTrackingScriptViewModelData();
+            echo $this->_viewEngine->renderView('lpwootrk-gtm-script-main.php', $data);
+        }
+
+        public function onWpBodyOpen() {
+            $data = $this->_getTrackingScriptViewModelData();
+            echo $this->_viewEngine->renderView('lpwootrk-gtm-script-noscript.php', $data);
+        }
+
+        private function _getTrackingScriptViewModelData() {
+            $data = new \stdClass();
+            $data->gtmTrackingId = $this->_settings->getGtmTrackingId();
+            return $data;
+        }
+    }
+}

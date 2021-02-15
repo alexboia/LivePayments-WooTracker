@@ -118,7 +118,7 @@ namespace LivepaymentsWootracker {
 
             if (!empty($commonScriptLocalization)) {
                 wp_localize_script(self::JS_LPWOOTRK_COMMON,
-                    'lvdwcmcCommonScriptL10n', 
+                    'lpwootrkCommonScriptL10n', 
                     $commonScriptLocalization);
             }
 

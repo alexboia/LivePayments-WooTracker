@@ -33,7 +33,7 @@
                             <table class="form-table">
                                 <tr>
                                     <th scope="row">
-                                        <label for="lpwootrk-gtm-tracking-id"><?php echo esc_html__('Enter the GTM tracking Id', 'livepayments-wootracker'); ?>:</label>
+                                        <label for="lpwootrk-gtm-tracking-id"><?php echo esc_html__('Enter the GTM Tracking Id', 'livepayments-wootracker'); ?>:</label>
                                     </th>
                                     <td>
                                         <input type="text" 
@@ -41,6 +41,18 @@
                                             id="lpwootrk-gtm-tracking-id"
                                             class="input-text regular-input"
                                             value="<?php echo esc_attr($data->settings->gtmTrackingId); ?>" /> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="lpwootrk-ga-measurement-id"><?php echo esc_html__('Enter the GA Measurement Id', 'livepayments-wootracker'); ?>:</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" 
+                                            name="gaMeasurementId" 
+                                            id="lpwootrk-ga-measurement-id"
+                                            class="input-text regular-input"
+                                            value="<?php echo esc_attr($data->settings->gaMeasurementId); ?>" /> 
                                     </td>
                                 </tr>
                             </table>

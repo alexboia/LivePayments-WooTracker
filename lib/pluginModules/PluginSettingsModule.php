@@ -101,6 +101,7 @@ namespace LivepaymentsWootracker\PluginModules {
             $response = lpwootrk_get_ajax_response();
 
             $gtmTrackingId = $this->_getTextInputFromHttpPost('gtmTrackingId');
+            $gaMeasurementId = $this->_getTextInputFromHttpPost('gaMeasurementId');
 
             $trackOrderReceived = $this->_getBooleanFromHttpPost('trackOrderReceived');
             $trackCartItemAdded = $this->_getBooleanFromHttpPost('trackCartItemAdded');
@@ -109,6 +110,8 @@ namespace LivepaymentsWootracker\PluginModules {
             $trackCheckoutProgress = $this->_getBooleanFromHttpPost('trackCheckoutProgress');
 
             $settings->setGtmTrackingId($gtmTrackingId);
+            $settings->setGaMeasurementId($gaMeasurementId);
+
             $settings->setTrackOrderReceived($trackOrderReceived);
             $settings->setTrackCartItemAdded($trackCartItemAdded);
             $settings->setTrackCartItemRemoved($trackCartItemRemoved);
@@ -132,7 +135,7 @@ namespace LivepaymentsWootracker\PluginModules {
 
         private function _getTextInputFromHttpPost($key) {
             return isset($_POST[$key])
-                ? sanitize_text_field($_POST[$key])
+                ? sanitize_text_field(strip_tags(trim($_POST[$key])))
                 : '';
         }
     }

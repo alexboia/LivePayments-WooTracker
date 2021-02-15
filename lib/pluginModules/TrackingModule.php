@@ -5,6 +5,7 @@
 
 namespace LivepaymentsWootracker\PluginModules {
     use LivepaymentsWootracker\Plugin;
+    use LivepaymentsWootracker\TrackingComponents\BeginCheckoutTrackingScriptComponent;
     use LivepaymentsWootracker\TrackingComponents\CoreTrackingScriptComponent;
 
 class TrackingModule extends PluginModule {
@@ -20,7 +21,8 @@ class TrackingModule extends PluginModule {
 
         private function _initTrackingComponents() {
             $this->_trackingComponents = array(
-                new CoreTrackingScriptComponent($this->_plugin)
+                new CoreTrackingScriptComponent($this->_plugin),
+                new BeginCheckoutTrackingScriptComponent($this->_plugin)
             );
         }
 
@@ -38,19 +40,25 @@ class TrackingModule extends PluginModule {
 
         public function onFrontendEnqueueStyles() {
             foreach ($this->_trackingComponents as $component) {
-                $component->enqueueStyles();
+                if ($component->isEnabled()) {
+                    $component->enqueueStyles();
+                }
             }
         }
 
         public function onFrontendEnqueueScripts() {
             foreach ($this->_trackingComponents as $component) {
-                $component->enqueueScripts();
+                if ($component->isEnabled()) {
+                    $component->enqueueScripts();
+                }
             }
         }
 
         private function _loadTrackingComponents() {
             foreach ($this->_trackingComponents as $component) {
-                $component->load();
+                if ($component->isEnabled()) {
+                    $component->load();
+                }
             }
         }
     }

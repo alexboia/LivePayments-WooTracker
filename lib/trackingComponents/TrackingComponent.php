@@ -34,12 +34,15 @@ namespace LivepaymentsWootracker\TrackingComponents {
             $this->_viewEngine = $plugin->getViewEngine();
         }
 
-        public function isEnabled() {
-            return !empty($this->_settings->getGtmTrackingId()) 
-                && $this->_isComponentEnabled();
+        abstract public function isEnabled();
+
+        protected function _hasGtmTrackingId() {
+            return !empty($this->_settings->getGtmTrackingId());
         }
 
-        abstract protected function _isComponentEnabled();
+        protected function _hasGaMeasurementId() {
+            return !empty($this->_settings->getGaMeasurementId());
+        }
 
         abstract public function enqueueStyles();
 

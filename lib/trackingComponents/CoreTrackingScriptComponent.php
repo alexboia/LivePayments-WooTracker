@@ -15,8 +15,9 @@ namespace LivepaymentsWootracker\TrackingComponents {
             parent::__construct($plugin);
         }
 
-        protected function _isComponentEnabled() {
-            return true;
+        public function isEnabled() {
+            return $this->_hasGtmTrackingId() 
+                || $this->_hasGaMeasurementId();
         }
 
         public function enqueueStyles() {
@@ -29,26 +30,35 @@ namespace LivepaymentsWootracker\TrackingComponents {
 
         public function load() {
             add_action('wp_head', 
-                array($this, 'onWpHead'), 
+                array($this, 'onWpHeadAddMainScript'), 
                 self::WP_HEAD_HOOK_PRIORITY);
             add_action('wp_body_open', 
-                array($this, 'onWpBodyOpen'), 
+                array($this, 'onWpBodyOpenAddNoScriptTags'), 
+                self::WP_BODY_OPEN_HOOK_PRIORITY);
+            add_action('wp_body_open', 
+                array($this, 'onWpBodyOpenAddUaConfigTags'), 
                 self::WP_BODY_OPEN_HOOK_PRIORITY);
         }
 
-        public function onWpHead() {
+        public function onWpHeadAddMainScript() {
             $data = $this->_getTrackingScriptViewModelData();
             echo $this->_viewEngine->renderView('lpwootrk-gtm-script-main.php', $data);
         }
 
-        public function onWpBodyOpen() {
+        public function onWpBodyOpenAddNoScriptTags() {
             $data = $this->_getTrackingScriptViewModelData();
             echo $this->_viewEngine->renderView('lpwootrk-gtm-script-noscript.php', $data);
+        }
+
+        public function onWpBodyOpenAddUaConfigTags() {
+            $data = $this->_getTrackingScriptViewModelData();
+            echo $this->_viewEngine->renderView('lpwootrk-gmt-script-uaconfig.php', $data);
         }
 
         private function _getTrackingScriptViewModelData() {
             $data = new \stdClass();
             $data->gtmTrackingId = $this->_settings->getGtmTrackingId();
+            $data->gaMeasurementId = $this->_settings->getGaMeasurementId();
             return $data;
         }
     }

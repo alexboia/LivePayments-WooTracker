@@ -3,6 +3,8 @@ namespace LivepaymentsWootracker {
     class Settings {
         const OPT_GTM_TRACKING_ID = 'gtmTrackingId';
 
+        const OPT_GA_MEASUREMENT_ID = 'gaMeasurementId';
+
         const OPT_TRACK_ORDER_RECEIVED = 'trackOrderReceived';
 
         const OPT_TRACK_CART_ITEM_ADDED = 'trackCartItemAdded';
@@ -61,6 +63,7 @@ namespace LivepaymentsWootracker {
         public function asPlainObject() {
             $data = new \stdClass();
             $data->gtmTrackingId = $this->getGtmTrackingId();
+            $data->gaMeasurementId = $this->getGaMeasurementId();
             $data->trackOrderReceived = $this->getTrackOrderReceived();
             $data->trackCartItemRemoved = $this->getTrackCartItemRemoved();
             $data->trackCartItemAdded = $this->getTrackCartItemAdded();
@@ -75,6 +78,14 @@ namespace LivepaymentsWootracker {
 
         public function setGtmTrackingId($value) {
             return $this->_setOption(self::OPT_GTM_TRACKING_ID, $value);
+        }
+
+        public function getGaMeasurementId() {
+            return $this->_getOption(self::OPT_GA_MEASUREMENT_ID, '');
+        }
+
+        public function setGaMeasurementId($value) {
+            return $this->_setOption(self::OPT_GA_MEASUREMENT_ID, $value);
         }
 
         public function getTrackOrderReceived() {

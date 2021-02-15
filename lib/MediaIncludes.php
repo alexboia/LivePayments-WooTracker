@@ -19,6 +19,8 @@ namespace LivepaymentsWootracker {
 
         const JS_LPWOOTRK_PLUGIN_SETTINGS = 'lpwootrk-plugin-settings-js';
 
+        const JS_LPWOOTRK_TRACKING_SCRIPT_BEGIN_CHECKOUT = 'lpwootrk-tracking-script-begin-checkout-js';
+
         const STYLE_TOASTR = 'toastr-css';
 
         const STYLE_LPWOOTRK_COMMON = 'lpwootrk-common-css';
@@ -72,12 +74,19 @@ namespace LivepaymentsWootracker {
             ),
             self::JS_LPWOOTRK_PLUGIN_SETTINGS => array(
                 'path' => 'media/js/lpwootrk-plugin-settings.js',
-                'version' => LVD_WCMC_VERSION,
+                'version' => LPWOOTRK_VERSION,
                 'deps' => array(
                     self::JS_JQUERY,
                     self::JS_URIJS,
                     self::JS_TOASTR,
                     self::JS_LPWOOTRK_COMMON
+                )
+            ),
+            self::JS_LPWOOTRK_TRACKING_SCRIPT_BEGIN_CHECKOUT => array(
+                'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-begin-checkout.js',
+                'version' => LPWOOTRK_VERSION,
+                'deps' => array(
+                    self::JS_JQUERY
                 )
             )
         );
@@ -129,6 +138,10 @@ namespace LivepaymentsWootracker {
             }
 
             $this->_includeCommonScriptSettings();
+        }
+
+        public function includeTrackingScriptForBeginCheckout() {
+            $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_BEGIN_CHECKOUT);
         }
 
         public function includeStyleCommon() {

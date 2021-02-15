@@ -132,6 +132,10 @@ namespace LivepaymentsWootracker {
                 : null;
         }
 
+        public function isViewingCartPage() {
+            return is_cart();
+        }
+
         public function getDbHost() {
             return $this->_dbHost;
         }

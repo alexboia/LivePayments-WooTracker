@@ -19,7 +19,13 @@ namespace LivepaymentsWootracker {
 
         const JS_LPWOOTRK_PLUGIN_SETTINGS = 'lpwootrk-plugin-settings-js';
 
+        const JS_LPWOOTRK_TRACKING_SCRIPT = 'lpwootrk-tracking-script-js';
+
         const JS_LPWOOTRK_TRACKING_SCRIPT_BEGIN_CHECKOUT = 'lpwootrk-tracking-script-begin-checkout-js';
+
+        const JS_LPWOOTRK_TRACKING_SCRIPT_CHECKOUT_PROGRESS = 'lpwootrk-tracking-script-checkout-progress-js';
+
+        const JS_LPWOOTRK_TRACKING_SCRIPT_ORDER_RECEIVED = 'lpwootrk-tracking-script-order-received-js';
 
         const STYLE_TOASTR = 'toastr-css';
 
@@ -82,11 +88,35 @@ namespace LivepaymentsWootracker {
                     self::JS_LPWOOTRK_COMMON
                 )
             ),
+            self::JS_LPWOOTRK_TRACKING_SCRIPT => array(
+                'path' => 'media/js/lpwootrk-tracking.js',
+                'version' => LPWOOTRK_VERSION,
+                'deps' => array(
+                    self::JS_JQUERY
+                )
+            ),
             self::JS_LPWOOTRK_TRACKING_SCRIPT_BEGIN_CHECKOUT => array(
                 'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-begin-checkout.js',
                 'version' => LPWOOTRK_VERSION,
                 'deps' => array(
-                    self::JS_JQUERY
+                    self::JS_JQUERY,
+                    self::JS_LPWOOTRK_TRACKING_SCRIPT
+                )
+            ),
+            self::JS_LPWOOTRK_TRACKING_SCRIPT_CHECKOUT_PROGRESS => array(
+                'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-checkout-progress.js',
+                'version' => LPWOOTRK_VERSION,
+                'deps' => array(
+                    self::JS_JQUERY,
+                    self::JS_LPWOOTRK_TRACKING_SCRIPT
+                )
+            ),
+            self::JS_LPWOOTRK_TRACKING_SCRIPT_ORDER_RECEIVED => array(
+                'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-order-received.js',
+                'version' => LPWOOTRK_VERSION,
+                'deps' => array(
+                    self::JS_JQUERY,
+                    self::JS_LPWOOTRK_TRACKING_SCRIPT
                 )
             )
         );
@@ -142,6 +172,14 @@ namespace LivepaymentsWootracker {
 
         public function includeTrackingScriptForBeginCheckout() {
             $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_BEGIN_CHECKOUT);
+        }
+
+        public function includeTrackingScriptForCheckoutProgress() {
+            $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_CHECKOUT_PROGRESS);
+        }
+
+        public function includeTrackingScriptForOrderReceived() {
+            $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_ORDER_RECEIVED);
         }
 
         public function includeStyleCommon() {

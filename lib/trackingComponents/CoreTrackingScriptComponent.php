@@ -9,7 +9,7 @@ namespace LivepaymentsWootracker\TrackingComponents {
     class CoreTrackingScriptComponent extends TrackingComponent {
         const WP_HEAD_HOOK_PRIORITY = 9998;
 
-        const WP_BODY_OPEN_HOOK_PRIORITY = 0;
+        const WP_BODY_OPEN_HOOK_PRIORITY = -10;
 
         public function __construct(Plugin $plugin) {
             parent::__construct($plugin);

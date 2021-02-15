@@ -4,5 +4,5 @@
 
 (function($) {
     "use strict";
-    window.lpwootrk.trackEvent('begin_checkout', 'beginCheckoutTrackingScriptData');
+    window.lpwootrk.trackEvent('checkout_progress', 'checkoutProgressTrackingScriptData');
 })(jQuery);

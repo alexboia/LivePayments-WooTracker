@@ -136,6 +136,18 @@ namespace LivepaymentsWootracker {
             return is_cart();
         }
 
+        public function isViewingCheckoutPage() {
+            return is_checkout() && !is_order_received_page() && !is_checkout_pay_page();
+        }
+
+        public function isAtOrderReceivedPage() {
+            return is_order_received_page();
+        }
+
+        public function isAtOrderReceiptPage() {
+            return is_checkout_pay_page();
+        }
+
         public function getDbHost() {
             return $this->_dbHost;
         }

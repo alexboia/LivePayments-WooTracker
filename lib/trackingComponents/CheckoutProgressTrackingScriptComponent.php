@@ -6,14 +6,14 @@
 namespace LivepaymentsWootracker\TrackingComponents {
     use LivepaymentsWootracker\Plugin;
 
-    class BeginCheckoutTrackingScriptComponent extends TrackingComponent {
+    class CheckoutProgressTrackingScriptComponent extends TrackingComponent {
         public function __construct(Plugin $plugin) {
             parent::__construct($plugin);
         }
 
         public function isEnabled() {
             return $this->_hasGaMeasurementId() 
-                && $this->_settings->getTrackCartCheckoutBegin();
+                && $this->_settings->getTrackCartCheckoutProgress();
         }
 
         public function enqueueStyles() {
@@ -21,19 +21,19 @@ namespace LivepaymentsWootracker\TrackingComponents {
         }
 
         public function enqueueScripts() {
-            if ($this->_env->isViewingCartPage()) {
-                $this->_mediaIncludes->includeTrackingScriptForBeginCheckout();
+            if ($this->_env->isViewingCheckoutPage()) {
+                $this->_mediaIncludes->includeTrackingScriptForCheckoutProgress();
             }
         }
 
         public function load() {
-            add_action('woocommerce_after_cart', 
-                array($this, 'onAfterCartAddTrackingScriptData'));
+            add_action('woocommerce_after_checkout_form', 
+                array($this, 'onAfterCheckoutFormAddTrackingScriptData'));
         }
 
-        public function onAfterCartAddTrackingScriptData() {
+        public function onAfterCheckoutFormAddTrackingScriptData() {
             $data = new \stdClass();
-            $data->trackingScriptDataName = 'beginCheckoutTrackingScriptData';
+            $data->trackingScriptDataName = 'checkoutProgressTrackingScriptData';
             $data->trackingScriptData = $this->_getCartItemsTrackingData();
             echo $this->_viewEngine->renderView('lpwootrk-tracking-script-data.php', $data);
         }

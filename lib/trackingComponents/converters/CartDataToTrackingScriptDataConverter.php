@@ -67,5 +67,25 @@ namespace LivepaymentsWootracker\TrackingComponents\Converters {
 
             return $itemTrackingData;
         }
+
+        public function getCartItemsTrackingSupportData() {
+            $data = new \stdClass();
+            $data->cartItemsMapping = $this->_getCartItemsMapping();
+            return $data;
+        }
+
+        private function _getCartItemsMapping() {
+            $itemsMapping = array();
+            $cartItems = $this->_getCartItems();
+
+            foreach ($cartItems as $key => $item) {
+                $itemTrackingData = $this->_convertCartItemToTrackingProductData($item);
+                if (!empty($itemTrackingData)) {
+                    $itemsMapping[$key] = $itemTrackingData;
+                }
+            }
+
+            return $itemsMapping;
+        }
     }
 }

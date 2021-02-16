@@ -7,7 +7,11 @@ namespace LivepaymentsWootracker\TrackingComponents {
     use LivepaymentsWootracker\Plugin;
     use LivepaymentsWootracker\TrackingComponents\Converters\ProductDataToTrackingScriptDataConverter;
 
-class AddToCartTrackingScriptComponent extends TrackingComponent {
+    class AddToCartTrackingScriptComponent extends TrackingComponent {
+        public function __construct(Plugin $plugin) {
+            parent::__construct($plugin);
+        }
+
         public function isEnabled() {
             return $this->_hasGaMeasurementId() 
                 && $this->_settings->getTrackCartItemAdded();
@@ -19,7 +23,7 @@ class AddToCartTrackingScriptComponent extends TrackingComponent {
 
         public function enqueueScripts() {
             if ($this->_env->isAtProductDetailsPage()) {
-                $this->_mediaIncludes->includeTrackingScriptForSingleProduct();
+                $this->_mediaIncludes->includeTrackingScriptForAddToCartAtSingleProduct();
             }
         }
 

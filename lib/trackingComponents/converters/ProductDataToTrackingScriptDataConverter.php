@@ -6,12 +6,11 @@
 namespace LivepaymentsWootracker\TrackingComponents\Converters {
     use WC_Product;
     use WC_Product_Grouped;
-    use WC_Product_Simple;
 	use LivepaymentsWootracker\Helpers\WcProductHelpers;
     use WC_Product_Variable;
     use WC_Product_Variation;
 
-class ProductDataToTrackingScriptDataConverter {
+	class ProductDataToTrackingScriptDataConverter {
         private $_productToConvert;
 
         public function __construct(WC_Product $product) {
@@ -40,25 +39,7 @@ class ProductDataToTrackingScriptDataConverter {
            	return $trackingData;
         }
 
-		public function getProductTrackingSupportData() {
-			$supportData = new \stdClass();
-			$supportData->variationMapping = array();
-
-			if ($this->_productToConvert instanceof WC_Product_Variable) {
-				$childrenIds = $this->_productToConvert->get_children();
-               foreach ($childrenIds as $childId) {
-                   $variationProduct = wc_get_product($childId);
-				   $supportData->variationMapping[$variationProduct->get_id()] = array(
-					   'id' => WcProductHelpers::getProductIdForTracking($variationProduct),
-					   'price' => WcProductHelpers::getProductPriceForTracking($variationProduct)
-				   );
-               }
-			}
-
-			return $supportData;
-		}
-
-        private function _getProductTrackingData(WC_Product $product) {
+		private function _getProductTrackingData(WC_Product $product) {
             $productTrackingData = new \stdClass();
 
             $productTrackingData->id = $product->get_sku();
@@ -75,5 +56,32 @@ class ProductDataToTrackingScriptDataConverter {
 
             return $productTrackingData;
         }
+
+		public function getProductTrackingSupportData() {
+			$supportData = new \stdClass();
+			$supportData->variationMapping = $this->_getVariationMapping();
+			return $supportData;
+		}
+
+		private function _getVariationMapping() {
+			$variationMapping = array();
+
+			if ($this->_productToConvert instanceof WC_Product_Variable) {
+				$childrenIds = $this->_productToConvert->get_children();
+               	foreach ($childrenIds as $childId) {
+                   	$variationProduct = wc_get_product($childId);
+				   	$variationMapping[$variationProduct->get_id()] =$this->_getVariationInfo($variationProduct);
+               	}
+			}
+
+			return $variationMapping;
+		}
+
+		private function _getVariationInfo(WC_Product_Variation $variationProduct) {
+			return array(
+				'id' => WcProductHelpers::getProductIdForTracking($variationProduct),
+				'price' => WcProductHelpers::getProductPriceForTracking($variationProduct)
+			);
+		}
     }
 }

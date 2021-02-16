@@ -8,6 +8,7 @@
     function _trackEventFromDataSource(eventName, dataSource, eventCallback) {
         if ($.isFunction(window.gtag)) {
             var trackingData = _getTrackingData(dataSource);
+            
             if (!!trackingData) {
                 if (!!eventCallback && $.isFunction(eventCallback)) {
                     trackingData = $.extend(trackingData, {
@@ -24,8 +25,18 @@
         }
     }
 
-    function _getTrackingData(dataSource) {
-        return window['lpwootrk_' + dataSource] || null;
+    function _getTrackingData(dataSourceName) {
+        var dataSource = window['lpwootrk_' + dataSourceName] || null;
+
+        if (!!dataSource) {
+            if (typeof dataSource == 'string') {
+                dataSource = _getTrackingData(dataSourceName);
+            } else {
+                dataSource = $.extend({}, dataSource);
+            }
+        }
+
+        return dataSource;
     }
 
     function trackEvent(eventName, dataSource) {

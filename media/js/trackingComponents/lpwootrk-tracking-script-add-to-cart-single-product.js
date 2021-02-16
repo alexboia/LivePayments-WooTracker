@@ -17,8 +17,12 @@
         return !!_getDataSource();
     }
 
+    function _updateDataSource(dataSource) {
+        window['lpwootrk_addToCartSingleProductScriptTrackingData'] = dataSource;
+    }
+
     function _getTrackingSupportData() {
-        return window['lpwootrk_trackingSupportData'] || null;
+        return window['lpwootrk_addToCartSingleProductScriptTrackingData_trackingSupportData'] || null;
     }
 
     function _getVariationMapping() {
@@ -26,13 +30,13 @@
         return supportData['variationMapping'] || null;
     }
 
+    function _hasVariationMapping() {
+        return !!_getVariationMapping();
+    }
+
     function _getVariationInfo(variationId) {
         var variationMapping = _getVariationMapping();
         return variationMapping[variationId] || null;
-    }
-
-    function _updateDataSource(dataSource) {
-        window['lpwootrk_addToCartSingleProductScriptTrackingData'] = dataSource;
     }
 
     function _syncVariations() {
@@ -42,14 +46,23 @@
 
         if (!!variationId && variationId > 0) {
             variationInfo = _getVariationInfo(variationId);
-            $('.variations select').each(function() {
-                var vName = $(this).val();
-                variationNameParts.push(vName);
-            });
+            variationNameParts = _getVariationNameParts();
         }
 
-        var formattedVariationName = variationNameParts.join(', ');
-        _setVariantNamesToAllItemsInDataSource(formattedVariationName, variationInfo);
+        var formattedVariationName = variationNameParts
+            .join(', ');
+
+        _setVariantNamesToAllItemsInDataSource(formattedVariationName, 
+            variationInfo);
+    }
+
+    function _getVariationNameParts() {
+        var variationNameParts = [];
+        $('.variations select').each(function() {
+            var vName = $(this).val();
+            variationNameParts.push(vName);
+        });
+        return variationNameParts;
     }
 
     function _setVariantNamesToAllItemsInDataSource(variantName, variationInfo) {
@@ -99,7 +112,7 @@
             qty = 1;
         }
 
-        if (!isNaN(qty)) {
+        if (isNaN(qty)) {
             qty = 1;
         }
 
@@ -114,11 +127,23 @@
         e.stopPropagation();
 
         $ctlAddToCart.addClass('disabled');
-        window.lpwootrk.trackEvent('add_to_cart', 'addToCartSingleProductScriptTrackingData', function() {
-            window.setTimeout(function() {
-                $ctlForm.submit();
-            }, 250);
-        });
+        window.lpwootrk.trackEvent('add_to_cart', 
+            'addToCartSingleProductScriptTrackingData', 
+            _handleAddToCartTrackReady);
+    }
+
+    function _handleAddToCartTrackReady() {
+        window.setTimeout(function() {
+            _submitForm();
+        }, 250);
+    }
+
+    function _submitForm() {
+        if ($ctlAddToCart.attr('name') == 'add-to-cart') {
+            $ctlAddToCart.prepend($('<input type="hidden" name="add-to-cart" value="' + $ctlAddToCart.val() + '" />'));
+        }
+
+        $ctlForm.submit();
     }
 
     function _initControls() {
@@ -133,7 +158,7 @@
     }
     
     $(document).ready(function() {
-        if (_hasDataSource()) {
+        if (_hasDataSource() && _hasVariationMapping()) {
             _initControls();
             _initEvents();
             _syncVariations();

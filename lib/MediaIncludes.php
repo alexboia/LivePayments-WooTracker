@@ -27,7 +27,9 @@ namespace LivepaymentsWootracker {
 
         const JS_LPWOOTRK_TRACKING_SCRIPT_ORDER_RECEIVED = 'lpwootrk-tracking-script-order-received-js';
 
-        const JS_LPWOOTRK_TRACKING_SCRIPT_SINGLE_PRODUCT = 'lpwootrk-tracking-script-single-product-js';
+        const JS_LPWOOTRK_TRACKING_SCRIPT_ADD_TO_CART_SINGLE_PRODUCT = 'lpwootrk-tracking-script-add-to-cart-single-product-js';
+
+        const JS_LPWOOTRK_TRACKING_SCRIPT_REMOVE_FROM_CART = 'lpwootrk-tracking-script-remove-from-cart-js';
 
         const STYLE_TOASTR = 'toastr-css';
 
@@ -121,8 +123,16 @@ namespace LivepaymentsWootracker {
                     self::JS_LPWOOTRK_TRACKING_SCRIPT
                 )
             ),
-            self::JS_LPWOOTRK_TRACKING_SCRIPT_SINGLE_PRODUCT => array(
-                'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-single-product.js',
+            self::JS_LPWOOTRK_TRACKING_SCRIPT_ADD_TO_CART_SINGLE_PRODUCT => array(
+                'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-add-to-cart-single-product.js',
+                'version' => LPWOOTRK_VERSION,
+                'deps' => array(
+                    self::JS_JQUERY,
+                    self::JS_LPWOOTRK_TRACKING_SCRIPT
+                )
+            ),
+            self::JS_LPWOOTRK_TRACKING_SCRIPT_REMOVE_FROM_CART => array(
+                'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-remove-from-cart.js',
                 'version' => LPWOOTRK_VERSION,
                 'deps' => array(
                     self::JS_JQUERY,
@@ -192,8 +202,12 @@ namespace LivepaymentsWootracker {
             $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_ORDER_RECEIVED);
         }
 
-        public function includeTrackingScriptForSingleProduct() {
-            $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_SINGLE_PRODUCT);
+        public function includeTrackingScriptForAddToCartAtSingleProduct() {
+            $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_ADD_TO_CART_SINGLE_PRODUCT);
+        }
+
+        public function includeTrackingScriptForRemoveFromCart() {
+            $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_REMOVE_FROM_CART);
         }
 
         public function includeStyleCommon() {

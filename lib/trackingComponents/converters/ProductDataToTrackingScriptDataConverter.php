@@ -21,7 +21,7 @@ namespace LivepaymentsWootracker\TrackingComponents\Converters {
             return new self(wc_get_product($product));
         }
 
-        public function getProductTrackingData() {
+        public function getProductAddToCartTrackingData() {
             $trackingData = new \stdClass();
             $itemsTrackingData = array();
 
@@ -29,17 +29,21 @@ namespace LivepaymentsWootracker\TrackingComponents\Converters {
                $childrenIds = $this->_productToConvert->get_children();
                foreach ($childrenIds as $childId) {
                    $groupItemProduct = wc_get_product($childId);
-                   $itemsTrackingData[] = $this->_getProductTrackingData($groupItemProduct);
+                   $itemsTrackingData[] = $this->_convertProductToTrackingDataItem($groupItemProduct);
                }
             } else {
-               $itemsTrackingData[] = $this->_getProductTrackingData($this->_productToConvert);
+               $itemsTrackingData[] = $this->_convertProductToTrackingDataItem($this->_productToConvert);
             }
 
 			$trackingData->items = $itemsTrackingData;
            	return $trackingData;
         }
 
-		private function _getProductTrackingData(WC_Product $product) {
+        public function getProductTrackingData() {
+            return $this->_convertProductToTrackingDataItem($this->_productToConvert);
+        }
+
+		private function _convertProductToTrackingDataItem(WC_Product $product) {
             $productTrackingData = new \stdClass();
 
             $productTrackingData->id = $product->get_sku();
@@ -57,7 +61,7 @@ namespace LivepaymentsWootracker\TrackingComponents\Converters {
             return $productTrackingData;
         }
 
-		public function getProductTrackingSupportData() {
+		public function getProductAddToCartTrackingSupportData() {
 			$supportData = new \stdClass();
 			$supportData->variationMapping = $this->_getVariationMapping();
 			return $supportData;

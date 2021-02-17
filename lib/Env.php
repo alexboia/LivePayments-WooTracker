@@ -132,6 +132,10 @@ namespace LivepaymentsWootracker {
                 : null;
         }
 
+        public function isViewingAnyShopProductListingPage() {
+            return is_product_category() || is_product_taxonomy() || is_shop() || is_search();
+        }
+
         public function isViewingCartPage() {
             return is_cart();
         }

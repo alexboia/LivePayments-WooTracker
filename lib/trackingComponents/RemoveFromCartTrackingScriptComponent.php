@@ -6,7 +6,7 @@ namespace LivepaymentsWootracker\TrackingComponents {
     use LivepaymentsWootracker\Plugin;
     use LivepaymentsWootracker\TrackingComponents\Converters\CartDataToTrackingScriptDataConverter;
 
-class RemoveFromCartTrackingScriptComponent extends TrackingComponent {
+    class RemoveFromCartTrackingScriptComponent extends TrackingComponent {
         public function __construct(Plugin $plugin) {
             parent::__construct($plugin);
         }

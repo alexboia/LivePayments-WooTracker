@@ -5,6 +5,7 @@
 
 namespace LivepaymentsWootracker\PluginModules {
     use LivepaymentsWootracker\Plugin;
+    use LivepaymentsWootracker\TrackingComponents\AddToCartFromProductListingsTrackingScriptComponent;
     use LivepaymentsWootracker\TrackingComponents\AddToCartTrackingScriptComponent;
     use LivepaymentsWootracker\TrackingComponents\BeginCheckoutTrackingScriptComponent;
     use LivepaymentsWootracker\TrackingComponents\CheckoutProgressTrackingScriptComponent;
@@ -32,6 +33,7 @@ class TrackingModule extends PluginModule {
                 new CheckoutProgressTrackingScriptComponent($this->_plugin),
                 new OrderReceivedTrackingScriptComponent($this->_plugin),
                 new AddToCartTrackingScriptComponent($this->_plugin),
+                new AddToCartFromProductListingsTrackingScriptComponent($this->_plugin),
                 new RemoveFromCartTrackingScriptComponent($this->_plugin)
             );
         }

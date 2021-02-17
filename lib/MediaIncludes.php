@@ -29,6 +29,8 @@ namespace LivepaymentsWootracker {
 
         const JS_LPWOOTRK_TRACKING_SCRIPT_ADD_TO_CART_SINGLE_PRODUCT = 'lpwootrk-tracking-script-add-to-cart-single-product-js';
 
+        const JS_LPWOOTRK_TRACKING_SCRPT_ADD_TO_CART_PRODUCT_LISTING = 'lpwootrk-tracking-script-add-to-cart-product-listing-js';
+
         const JS_LPWOOTRK_TRACKING_SCRIPT_REMOVE_FROM_CART = 'lpwootrk-tracking-script-remove-from-cart-js';
 
         const JS_LPWOOTRK_TRACKING_SCRIPT_DATALAYER_DEBUGGING = 'lpwootrk-tracking-script-datalayer-debugging-js';
@@ -133,6 +135,14 @@ namespace LivepaymentsWootracker {
                     self::JS_LPWOOTRK_TRACKING_SCRIPT
                 )
             ),
+            self::JS_LPWOOTRK_TRACKING_SCRPT_ADD_TO_CART_PRODUCT_LISTING => array(
+                'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-add-to-cart-product-listing.js',
+                'version' => LPWOOTRK_VERSION,
+                'deps' => array(
+                    self::JS_JQUERY,
+                    self::JS_LPWOOTRK_TRACKING_SCRIPT
+                )
+            ),
             self::JS_LPWOOTRK_TRACKING_SCRIPT_REMOVE_FROM_CART => array(
                 'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-remove-from-cart.js',
                 'version' => LPWOOTRK_VERSION,
@@ -214,6 +224,10 @@ namespace LivepaymentsWootracker {
 
         public function includeTrackingScriptForAddToCartAtSingleProduct() {
             $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_ADD_TO_CART_SINGLE_PRODUCT);
+        }
+
+        public function includeTrackingScriptForAddToCartAtProductListing() {
+            $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRPT_ADD_TO_CART_PRODUCT_LISTING);
         }
 
         public function includeTrackingScriptForRemoveFromCart() {

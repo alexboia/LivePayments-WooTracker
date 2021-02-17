@@ -55,8 +55,8 @@ namespace LivepaymentsWootracker\TrackingComponents {
             if (!empty($currentProduct)) {
                 $data = new \stdClass();
                 $converter = ProductDataToTrackingScriptDataConverter::forProduct($currentProduct);
-                $data->trackingScriptData = $converter->getProductTrackingData();
-                $data->trackingSupportData = $converter->getProductTrackingSupportData();
+                $data->trackingScriptData = $converter->getProductAddToCartTrackingData();
+                $data->trackingSupportData = $converter->getProductAddToCartTrackingSupportData();
             }
             return $data;
         }

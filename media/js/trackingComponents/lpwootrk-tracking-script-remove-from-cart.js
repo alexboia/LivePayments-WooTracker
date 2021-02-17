@@ -60,10 +60,10 @@
         if (!!itemKey) {
             var itemInfo = _getCartItemInfo(itemKey);
             if (!!itemInfo) {
-                _refreshDataSourceWithItemInfo(itemInfo);
+                _refreshTrackingScriptDataWithItemInfo(itemInfo);
                 _trackCartItemRemovedEvent();
             } else {
-                console.debug('[Livepayments WooTracker] No item info found for cart item key ' + itemKey);
+                console.debug('[Livepayments WooTracker] No item info found for cart item key %s.', itemKey);
             }
         } else {
             console.debug('[Livepayments WooTracker] No item key for cart item remove link.');
@@ -76,7 +76,7 @@
             _handleTrackCartItemRemovedReady);
     }
 
-    function _refreshDataSourceWithItemInfo(itemInfo) {
+    function _refreshTrackingScriptDataWithItemInfo(itemInfo) {
         var trackingScriptData = _getTrackingScriptData();
         if (!!itemInfo) {
             var removeItemInfo = $.extend({}, itemInfo);
@@ -88,11 +88,11 @@
     }
 
     function _handleTrackCartItemRemovedReady() {
-        _clearDataSource();
+        _clearTrackingScriptData();
     }
 
-    function _clearDataSource() {
-        _refreshDataSourceWithItemInfo(null);
+    function _clearTrackingScriptData() {
+        _refreshTrackingScriptDataWithItemInfo(null);
     }
 
     function _updateCartItemsMappingQuantitiesOnWcDivUpdated() {

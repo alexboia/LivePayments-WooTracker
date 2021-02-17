@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright (c) 2021-2021 LiveDesign SRL
+ */
+
 namespace LivepaymentsWootracker {
     class Settings {
         const OPT_GTM_TRACKING_ID = 'gtmTrackingId';

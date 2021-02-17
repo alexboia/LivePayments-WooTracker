@@ -9,13 +9,14 @@ namespace LivepaymentsWootracker\TrackingComponents {
     use WC_Product_Grouped;
     use WC_Product_Simple;
 
-class AddToCartFromProductListingsTrackingScriptComponent extends TrackingComponent {
+    class AddToCartFromProductListingsTrackingScriptComponent extends TrackingComponent {
         public function __construct(Plugin $plugin) {
             parent::__construct($plugin);
         }
 
         public function isEnabled() {
             return $this->_hasGaMeasurementId() 
+                && !$this->_isOptOut()
                 && $this->_settings->getTrackCartItemAdded();
         }
 

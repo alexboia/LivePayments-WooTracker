@@ -13,6 +13,7 @@ namespace LivepaymentsWootracker\TrackingComponents {
 
         public function isEnabled() {
             return $this->_hasGaMeasurementId() 
+                && !$this->_isOptOut()
                 && $this->_settings->getTrackCartItemRemoved();
         }
 

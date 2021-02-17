@@ -6,8 +6,9 @@
 namespace LivepaymentsWootracker {
 	use LivepaymentsWootracker\PluginModules\PluginSettingsModule;
     use LivepaymentsWootracker\PluginModules\TrackingModule;
+    use LivepaymentsWootracker\PluginModules\TrackingOptOutModule;
 
-    class Plugin {
+class Plugin {
         /**
          * @var \LivepaymentsWootracker\Env
          */
@@ -75,7 +76,8 @@ namespace LivepaymentsWootracker {
         private function _initModules() {
 			$this->_pluginModules = array(
 				new PluginSettingsModule($this),
-                new TrackingModule($this)
+                new TrackingModule($this),
+                new TrackingOptOutModule($this)
 			);
         }
 

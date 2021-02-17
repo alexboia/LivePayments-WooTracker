@@ -14,7 +14,7 @@ namespace LivepaymentsWootracker\PluginModules {
     use LivepaymentsWootracker\TrackingComponents\OrderReceivedTrackingScriptComponent;
     use LivepaymentsWootracker\TrackingComponents\RemoveFromCartTrackingScriptComponent;
 
-class TrackingModule extends PluginModule {
+    class TrackingModule extends PluginModule {
         /**
          * @var \LivepaymentsWootracker\TrackingComponents\TrackingComponent[]
          */

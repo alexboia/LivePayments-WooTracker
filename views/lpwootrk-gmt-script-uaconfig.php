@@ -7,6 +7,12 @@
 ?>
 
 <?php if (!empty($data->gaMeasurementId)): ?>
+    <?php if($data->isOptOut): ?>
+        <script>
+            window['<?php esc_js($data->optOutPropertyKey); ?>'] = true;
+        </script>
+    <?php endif; ?>
+
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){

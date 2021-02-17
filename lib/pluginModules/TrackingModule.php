@@ -9,6 +9,7 @@ namespace LivepaymentsWootracker\PluginModules {
     use LivepaymentsWootracker\TrackingComponents\BeginCheckoutTrackingScriptComponent;
     use LivepaymentsWootracker\TrackingComponents\CheckoutProgressTrackingScriptComponent;
     use LivepaymentsWootracker\TrackingComponents\CoreTrackingScriptComponent;
+    use LivepaymentsWootracker\TrackingComponents\DataLayerDebuggingComponent;
     use LivepaymentsWootracker\TrackingComponents\OrderReceivedTrackingScriptComponent;
     use LivepaymentsWootracker\TrackingComponents\RemoveFromCartTrackingScriptComponent;
 
@@ -25,6 +26,7 @@ class TrackingModule extends PluginModule {
 
         private function _initTrackingComponents() {
             $this->_trackingComponents = array(
+                new DataLayerDebuggingComponent($this->_plugin),
                 new CoreTrackingScriptComponent($this->_plugin),
                 new BeginCheckoutTrackingScriptComponent($this->_plugin),
                 new CheckoutProgressTrackingScriptComponent($this->_plugin),

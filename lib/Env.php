@@ -136,7 +136,11 @@ namespace LivepaymentsWootracker {
             return is_cart();
         }
 
-        public function isViewingCheckoutPage() {
+        public function isViewingAnyCheckoutPage() {
+            return is_checkout();
+        }
+
+        public function isViewingCheckoutDetailsPage() {
             return is_checkout() && !is_order_received_page() && !is_checkout_pay_page();
         }
 
@@ -146,6 +150,11 @@ namespace LivepaymentsWootracker {
 
         public function isAtOrderReceiptPage() {
             return is_checkout_pay_page();
+        }
+
+        public function isCartWidgetHidden() {
+            return apply_filters('woocommerce_widget_cart_is_hidden', 
+                is_cart() || is_checkout());
         }
 
         public function isAtProductDetailsPage() {

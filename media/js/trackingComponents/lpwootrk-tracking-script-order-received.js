@@ -4,5 +4,8 @@
 
 (function($) {
     "use strict";
-    window.lpwootrk.trackEvent('purchase', 'purchaseTrackingScriptData');
+    
+    $(document).ready(function() {
+        window.lpwootrk.trackEvent('purchase', 'purchaseTrackingScriptData');
+    });
 })(jQuery);

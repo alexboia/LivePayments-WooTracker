@@ -6,6 +6,7 @@
     "use strict";
 
     $(document).ready(function() {
-        window.lpwootrk.trackEvent('checkout_progress', 'checkoutProgressTrackingScriptData');
+        lpwootrk.createDataLayerDebugger('dataLayer')
+            .startWatcher(250);
     });
 })(jQuery);

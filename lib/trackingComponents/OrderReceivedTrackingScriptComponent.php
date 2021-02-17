@@ -23,12 +23,12 @@ namespace LivepaymentsWootracker\TrackingComponents {
         }
 
         public function enqueueScripts() {
-            if ($this->_shouldEnqueueScript()) {
+            if ($this->_shouldEnqueueTrackingScript()) {
                 $this->_mediaIncludes->includeTrackingScriptForOrderReceived();
             }
         }
 
-        private function _shouldEnqueueScript() {
+        private function _shouldEnqueueTrackingScript() {
             return $this->_env->isAtOrderReceivedPage() || (
                 $this->_env->isAtOrderReceiptPage() && $this->_trackOrderReceiptEnabled()
             );

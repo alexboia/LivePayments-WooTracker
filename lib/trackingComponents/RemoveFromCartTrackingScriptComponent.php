@@ -21,9 +21,13 @@ class RemoveFromCartTrackingScriptComponent extends TrackingComponent {
         }
 
         public function enqueueScripts() {
-            if ($this->_env->isViewingCartPage()) {
+            if ($this->_shouldEnqueueTrackingScript()) {
                 $this->_mediaIncludes->includeTrackingScriptForRemoveFromCart();
             }
+        }
+
+        private function _shouldEnqueueTrackingScript() {
+            return !$this->_env->isCartWidgetHidden() || $this->_env->isViewingCartPage();
         }
 
         public function load() {

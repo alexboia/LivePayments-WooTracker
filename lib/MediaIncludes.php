@@ -31,6 +31,8 @@ namespace LivepaymentsWootracker {
 
         const JS_LPWOOTRK_TRACKING_SCRIPT_REMOVE_FROM_CART = 'lpwootrk-tracking-script-remove-from-cart-js';
 
+        const JS_LPWOOTRK_TRACKING_SCRIPT_DATALAYER_DEBUGGING = 'lpwootrk-tracking-script-datalayer-debugging-js';
+
         const STYLE_TOASTR = 'toastr-css';
 
         const STYLE_LPWOOTRK_COMMON = 'lpwootrk-common-css';
@@ -138,6 +140,14 @@ namespace LivepaymentsWootracker {
                     self::JS_JQUERY,
                     self::JS_LPWOOTRK_TRACKING_SCRIPT
                 )
+            ),
+            self::JS_LPWOOTRK_TRACKING_SCRIPT_DATALAYER_DEBUGGING => array(
+                'path' => 'media/js/trackingComponents/lpwootrk-tracking-script-datalayer-debugging.js',
+                'version' => LPWOOTRK_VERSION,
+                'deps' => array(
+                    self::JS_JQUERY,
+                    self::JS_LPWOOTRK_TRACKING_SCRIPT
+                )
             )
         );
 
@@ -208,6 +218,10 @@ namespace LivepaymentsWootracker {
 
         public function includeTrackingScriptForRemoveFromCart() {
             $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_REMOVE_FROM_CART);
+        }
+
+        public function includeDataLayerDebuggingScript() {
+            $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_DATALAYER_DEBUGGING);
         }
 
         public function includeStyleCommon() {

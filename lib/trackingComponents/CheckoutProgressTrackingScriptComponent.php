@@ -22,7 +22,7 @@ namespace LivepaymentsWootracker\TrackingComponents {
         }
 
         public function enqueueScripts() {
-            if ($this->_env->isViewingCheckoutPage()) {
+            if ($this->_env->isViewingCheckoutDetailsPage()) {
                 $this->_mediaIncludes->includeTrackingScriptForCheckoutProgress();
             }
         }

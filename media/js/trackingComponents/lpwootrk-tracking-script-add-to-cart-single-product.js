@@ -5,24 +5,30 @@
 (function($) {
     "use strict";
 
+    var _trackingDataSource = null;
+
     var $ctlForm = null;
     var $ctlVariationId = null;
     var $ctlAddToCart = null;
 
-    function _getDataSource() {
-        return window['lpwootrk_addToCartSingleProductScriptTrackingData'] || null;
+    function _getTrackingScriptData() {
+        return _trackingDataSource.getTrackingScriptData();
     }
 
-    function _hasDataSource() {
-        return !!_getDataSource();
+    function _hasTrackingScriptData() {
+        return _trackingDataSource.hasTrackingScriptData();
     }
 
-    function _updateDataSource(dataSource) {
-        window['lpwootrk_addToCartSingleProductScriptTrackingData'] = dataSource;
+    function _updateTrackingScriptData(trackingScriptData) {
+        _trackingDataSource.updateTrackingScriptData(trackingScriptData);
     }
 
     function _getTrackingSupportData() {
-        return window['lpwootrk_addToCartSingleProductScriptTrackingData_trackingSupportData'] || null;
+        return _trackingDataSource.getTrackingScriptSupportData();
+    }
+
+    function _hasTrackingSupportData() {
+        return _trackingDataSource.hasTrackingScriptSupportData();
     }
 
     function _getVariationMapping() {
@@ -31,7 +37,7 @@
     }
 
     function _hasVariationMapping() {
-        return !!_getVariationMapping();
+        return _hasTrackingSupportData() && !!_getVariationMapping();
     }
 
     function _getVariationInfo(variationId) {
@@ -52,7 +58,7 @@
         var formattedVariationName = variationNameParts
             .join(', ');
 
-        _setVariantNamesToAllItemsInDataSource(formattedVariationName, 
+        _updateTrackingScriptDataItems(formattedVariationName, 
             variationInfo);
     }
 
@@ -65,26 +71,32 @@
         return variationNameParts;
     }
 
-    function _setVariantNamesToAllItemsInDataSource(variantName, variationInfo) {
-        var dataSource = _getDataSource();
+    function _updateTrackingScriptDataItems(variationName, variationInfo) {
+        var dataSource = _getTrackingScriptData();
 
         if (!!dataSource.items && !!dataSource.items.length) {
             for (var i = 0; i < dataSource.items.length; i ++) {
                 var item = dataSource.items[i];
-                item.variant = variantName;
-                if (!!variationInfo) {
-                    if (!!variationInfo.price) {
-                        item.price = variationInfo.price;
-                    }
-                    if (!!variationInfo.id) {
-                        item.id = variationInfo.id;
-                    }
-                }
-                dataSource.items[i] = item;
+                dataSource.items[i] = _updateTrackingScriptDataItem(item, 
+                    variationName, 
+                    variationInfo);
             }
         }
 
-        _updateDataSource(dataSource);
+        _updateTrackingScriptData(dataSource);
+    }
+
+    function _updateTrackingScriptDataItem(item, variationName, variationInfo) {
+        item.variant = variationName;
+        if (!!variationInfo) {
+            if (!!variationInfo.price) {
+                item.price = variationInfo.price;
+            }
+            if (!!variationInfo.id) {
+                item.id = variationInfo.id;
+            }
+        }
+        return item;
     }
 
     function _syncQuantities() {
@@ -93,7 +105,7 @@
     }
 
     function _setQuantitiesToAllItemsInDataSource(quantity) {
-        var dataSource = _getDataSource();
+        var dataSource = _getTrackingScriptData();
 
         if (!!dataSource.items && !!dataSource.items.length) {
             for (var i = 0; i < dataSource.items.length; i ++) {
@@ -101,7 +113,7 @@
             }
         }
 
-        _updateDataSource(dataSource);
+        _updateTrackingScriptData(dataSource);
     }
 
     function _getCurrentQuantity() {
@@ -119,14 +131,22 @@
         return qty;
     }
 
-    function _trackAddToCart(e) {
+    function _trackAddToCart(evt) {
         _syncVariations();
         _syncQuantities();
 
-        e.preventDefault();
-        e.stopPropagation();
+        evt.preventDefault();
+        evt.stopPropagation();
+        
+        _disableAddToCartButton();
+        _trackAddToCartEvent();
+    }
 
+    function _disableAddToCartButton() {
         $ctlAddToCart.addClass('disabled');
+    }
+
+    function _trackAddToCartEvent() {
         window.lpwootrk.trackEvent('add_to_cart', 
             'addToCartSingleProductScriptTrackingData', 
             _handleAddToCartTrackReady);
@@ -152,13 +172,18 @@
         $ctlAddToCart = $('.single_add_to_cart_button');
     }
 
+    function _initDataSource() {
+        _trackingDataSource = lpwootrk.createTrackingDataSource('addToCartSingleProductScriptTrackingData');
+    }
+
     function _initEvents() {
         $ctlVariationId.on('change', _syncVariations);
         $ctlAddToCart.on('click', _trackAddToCart);
     }
     
     $(document).ready(function() {
-        if (_hasDataSource() && _hasVariationMapping()) {
+        _initDataSource();
+        if (_hasTrackingScriptData() && _hasVariationMapping()) {
             _initControls();
             _initEvents();
             _syncVariations();

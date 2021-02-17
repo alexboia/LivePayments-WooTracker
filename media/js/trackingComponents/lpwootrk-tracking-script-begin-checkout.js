@@ -4,5 +4,8 @@
 
 (function($) {
     "use strict";
-    window.lpwootrk.trackEvent('begin_checkout', 'beginCheckoutTrackingScriptData');
+    
+    $(document).ready(function() {
+        window.lpwootrk.trackEvent('begin_checkout', 'beginCheckoutTrackingScriptData');
+    });
 })(jQuery);

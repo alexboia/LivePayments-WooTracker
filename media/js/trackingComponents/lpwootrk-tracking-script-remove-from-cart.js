@@ -5,20 +5,27 @@
 (function($) {
     "use strict";
 
-    function _getDataSource() {
-        return window['lpwootrk_itemRemovedFromCartTrackingScriptData'] || null;
+    var _isInitialized = false;
+    var _trackingDataSource = null;
+
+    function _getTrackingScriptData() {
+        return _trackingDataSource.getTrackingScriptData();
     }
 
-    function _hasDataSource() {
-        return !!_getDataSource();
+    function _hasTrackingScriptData() {
+        return _trackingDataSource.hasTrackingScriptData();
     }
 
-    function _updateDataSource(dataSource) {
-        window['lpwootrk_itemRemovedFromCartTrackingScriptData'] = dataSource;
+    function _updateTrackingScriptData(trackingScriptData) {
+        _trackingDataSource.updateTrackingScriptData(trackingScriptData);
     }
 
     function _getTrackingSupportData() {
-        return window['lpwootrk_itemRemovedFromCartTrackingScriptData_trackingSupportData'] || null;
+        return _trackingDataSource.getTrackingScriptSupportData();
+    }
+    
+    function _hasTrackingSupportData() {
+        return _trackingDataSource.hasTrackingScriptSupportData();
     }
 
     function _getCartItemsMapping() {
@@ -27,7 +34,7 @@
     }
 
     function _hasCartItemsMapping() {
-        return !!_getCartItemsMapping();
+        return _hasTrackingSupportData() && !!_getCartItemsMapping();
     }
 
     function _updateCartItemsMapping(cartItemsMapping) {
@@ -37,7 +44,7 @@
     }
 
     function _updateTrackingSupportData(trackingSupportData) {
-        window['lpwootrk_itemRemovedFromCartTrackingScriptData_trackingSupportData'] = trackingSupportData;
+        _trackingDataSource.updateTrackingScriptSupportData(trackingSupportData);
     }
 
     function _getCartItemInfo(itemKey) {
@@ -54,9 +61,7 @@
             var itemInfo = _getCartItemInfo(itemKey);
             if (!!itemInfo) {
                 _refreshDataSourceWithItemInfo(itemInfo);
-                window.lpwootrk.trackEvent('remove_from_cart', 
-                    'itemRemovedFromCartTrackingScriptData', 
-                    _handleTrackCartItemRemovedReady);
+                _trackCartItemRemovedEvent();
             } else {
                 console.debug('[Livepayments WooTracker] No item info found for cart item key ' + itemKey);
             }
@@ -65,15 +70,21 @@
         }
     }
 
+    function _trackCartItemRemovedEvent() {
+        window.lpwootrk.trackEvent('remove_from_cart', 
+            'itemRemovedFromCartTrackingScriptData', 
+            _handleTrackCartItemRemovedReady);
+    }
+
     function _refreshDataSourceWithItemInfo(itemInfo) {
-        var dataSource = _getDataSource();
+        var trackingScriptData = _getTrackingScriptData();
         if (!!itemInfo) {
             var removeItemInfo = $.extend({}, itemInfo);
-            dataSource.items = [removeItemInfo];
+            trackingScriptData.items = [ removeItemInfo ];
         } else {
-            dataSource.items = [];
+            trackingScriptData.items = [];
         }
-        _updateDataSource(dataSource);
+        _updateTrackingScriptData(trackingScriptData);
     }
 
     function _handleTrackCartItemRemovedReady() {
@@ -84,7 +95,7 @@
         _refreshDataSourceWithItemInfo(null);
     }
 
-    function _handleWcDivUpdated() {
+    function _updateCartItemsMappingQuantitiesOnWcDivUpdated() {
         var cartItemsMapping = _getCartItemsMapping();
 
         for (var itemKey in cartItemsMapping) {
@@ -97,9 +108,20 @@
     }
 
     function _getCurrentCartItemQuantity(itemKey) {
-        var $qtyElement = $('input[name="cart[' + itemKey + '][qty]"]');
+        var $qtyElement = _getCartItemQuantityElement(itemKey);
         var qty = parseInt($qtyElement.val());
-        return !isNaN(qty) ? qty : 1;
+
+        return !isNaN(qty) && qty > 0 
+            ? qty 
+            : 1;
+    }
+
+    function _getCartItemQuantityElement(itemKey) {
+        return $('input[name="cart[' + itemKey + '][qty]"]');
+    }
+
+    function _initDataSource() {
+        _trackingDataSource = lpwootrk.createTrackingDataSource('itemRemovedFromCartTrackingScriptData');
     }
 
     function _initEvents() {
@@ -112,12 +134,34 @@
             _trackCartItemRemoved);
 
         $(document).on('updated_wc_div', 
-            _handleWcDivUpdated);
+            _updateCartItemsMappingQuantitiesOnWcDivUpdated);
+    }
+
+    function _initialize() {
+        if (!_isInitialized) {
+            _initDataSource();
+            if (_hasTrackingScriptData() && _hasCartItemsMapping()) {
+                _initEvents();
+                _isInitialized = true;
+            } else {
+                console.debug('[Livepayments WooTracker] Tracking script data not present.')
+                _waitForWcCartFragmentsRefresh();
+            }
+        }
+    }
+
+    function _waitForWcCartFragmentsRefresh() {
+        $(document).on('wc_fragments_refreshed', 
+            _handleWcCartFragmentsRefreshed);
+    }
+
+    function _handleWcCartFragmentsRefreshed() {
+        _initialize();
+        $(document).off('wc_fragments_refreshed', 
+            _handleWcCartFragmentsRefreshed);
     }
 
     $(document).ready(function() {
-        if (_hasDataSource() && _hasCartItemsMapping()) {
-            _initEvents();
-        }
+        _initialize();
     });
 })(jQuery);

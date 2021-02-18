@@ -223,6 +223,10 @@ class Plugin {
             return TranslatedScriptMessages::getPluginSettingsScriptTranslations();
         }
 
+        public function getFrontendOptOutFormScriptTranslations() {
+            return TranslatedScriptMessages::getFrontendOptOutFormScriptTranslations();
+        }
+
         public function getCommonScriptTranslations() {
             return TranslatedScriptMessages::getCommonScriptTranslations();
         }

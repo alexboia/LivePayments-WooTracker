@@ -35,11 +35,17 @@ namespace LivepaymentsWootracker\PluginModules {
         }
 
         public function onFrontendEnqueueScripts() {
-            if (is_single() || is_page()) {
-                if ($this->_hasOptOutCapability() && $this->_currentPostHasOptOutShortcode()) {
-                    $this->_mediaIncludes->includeFrontendOptOutFormScript(array());
-                }
+            if ($this->_shouldEnqueueScripts()) {
+                $this->_mediaIncludes->includeFrontendOptOutFormScript(
+                    $this->_plugin->getFrontendOptOutFormScriptTranslations()
+                );
             }
+        }
+
+        private function _shouldEnqueueScripts() {
+            return (is_single() || is_page()) 
+                && $this->_hasOptOutCapability() 
+                && $this->_currentPostHasOptOutShortcode();
         }
 
         private function _currentPostHasOptOutShortcode() {
@@ -86,7 +92,7 @@ namespace LivepaymentsWootracker\PluginModules {
             $optOutManager->optOut();
             $response->success = true;
 
-            lpwootrk_send_json($response);
+            return $response;
         }
 
         private function _getOptOutManager() {

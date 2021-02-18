@@ -59,6 +59,16 @@
     margin-bottom: 0px;
 }
 
+.lpwootrk-settings-container .form-table th {
+    width: 300px;
+}
+
+.lpwootrk-settings-container .form-table th,
+.lpwootrk-settings-container .form-table td { 
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .lpwootrk-settings-container .form-table input.input-text {
     width: 300px;
 }

@@ -41,14 +41,14 @@
         }).done(function(data, status, xhr) {
             _hideProgress();
             if (data && data.success) {
-                _showOptOutResultMessage(true, 'We have successfully saved your preferences.');
+                _showOptOutResultMessage(true, lpwootrkFrontendOptOutFormL10n.msgSaveOk);
                 _hideOptOutControls();
             } else {
-                _showOptOutResultMessage(false, data.message || 'Something happened and we could not save your preferences. Please try again.');
+                _showOptOutResultMessage(false, data.message || lpwootrkFrontendOptOutFormL10n.errSaveFailure);
             }
         }).fail(function(xhr, status, error) {
             _hideProgress();
-            _showOptOutResultMessage(false, 'Something happened and we could not save your preferences. Please try again.');
+            _showOptOutResultMessage(false, lpwootrkFrontendOptOutFormL10n.errSaveFailureNetwork);
         });
     }
 

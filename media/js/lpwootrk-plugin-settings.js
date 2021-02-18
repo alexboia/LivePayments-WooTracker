@@ -40,13 +40,13 @@
         }).done(function(data, status, xhr) {
             _hideProgress();
             if (data && data.success) {
-                _toastMessage(true, 'The settings have been successfully saved.');
+                _toastMessage(true, lpwootrkPluginSettingsL10n.lblSettingsSuccessfullySaved);
             } else {
-                _toastMessage(false, data.message || 'The settings could not be saved. Please try again.');
+                _toastMessage(false, data.message || lpwootrkPluginSettingsL10n.errSettingsSaveFailure);
             }
         }).fail(function(xhr, status, error) {
             _hideProgress();
-            _toastMessage(false, 'The settings could not be saved. Please try again.');
+            _toastMessage(false, lpwootrkPluginSettingsL10n.errSettingsSaveFailureNetwork);
         });
     }
 

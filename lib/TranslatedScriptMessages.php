@@ -18,5 +18,13 @@ namespace LivepaymentsWootracker {
                 'errSettingsSaveFailureNetwork' => __('The settings could not be saved. Please try again.', 'livepayments-wootracker')
             );
         }
+
+        public static function getFrontendOptOutFormScriptTranslations() {
+            return array(
+                'msgSaveOk' => __('We have successfully saved your preferences.', 'livepayments-wootracker'),
+                'errSaveFailure' => __('Something happened and we could not save your preferences. Please try again.', 'livepayments-wootracker'),
+                'errSaveFailureNetwork' => __('Something happened and we could not save your preferences. Please try again.', 'livepayments-wootracker')
+            );
+        }
     }
 }

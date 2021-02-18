@@ -63,6 +63,9 @@ namespace LivepaymentsWootracker\TrackingComponents {
             $data->allowSettingGtmTrackingId = $this->_allowSettingGtmTrackingId();
             $data->gaMeasurementId = $this->_settings->getGaMeasurementId();
             $data->globalCurrency = get_woocommerce_currency();
+            $data->enableIpAnonymization = $this->_settings->getEnableIpAnonymization();
+            $data->enableEnhancedLinkAttribution = $this->_settings->getEnableEnhancedLinkAttribution();
+            $data->disableAdvertisingFeatures = $this->_settings->getDisableAdvertisingFeatures();
             $data->isOptOut = $this->_isOptOut();
             $data->optOutPropertyKey = $this->_getOptOutPropertyKey();
             return $data;

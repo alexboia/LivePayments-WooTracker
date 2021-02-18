@@ -120,6 +120,10 @@ namespace LivepaymentsWootracker\PluginModules {
 
             $gaMeasurementId = $this->_getTextInputFromHttpPost('gaMeasurementId');
 
+            $enableIpAnonymization = $this->_getBooleanFromHttpPost('enableIpAnonymization');
+            $enableEnhancedLinkAttribution = $this->_getBooleanFromHttpPost('enableEnhancedLinkAttribution');
+            $disableAdvertisingFeatures = $this->_getBooleanFromHttpPost('disableAdvertisingFeatures');
+
             $trackOrderReceived = $this->_getBooleanFromHttpPost('trackOrderReceived');
             $trackCartItemAdded = $this->_getBooleanFromHttpPost('trackCartItemAdded');
             $trackCartItemRemoved = $this->_getBooleanFromHttpPost('trackCartItemRemoved');
@@ -128,6 +132,10 @@ namespace LivepaymentsWootracker\PluginModules {
 
             $settings->setGtmTrackingId($gtmTrackingId);
             $settings->setGaMeasurementId($gaMeasurementId);
+
+            $settings->setEnableIpAnonymization($enableIpAnonymization);
+            $settings->setEnableEnhancedLinkAttribution($enableEnhancedLinkAttribution);
+            $settings->setDisableAdvertisingFeatures($disableAdvertisingFeatures);
 
             $settings->setTrackOrderReceived($trackOrderReceived);
             $settings->setTrackCartItemAdded($trackCartItemAdded);

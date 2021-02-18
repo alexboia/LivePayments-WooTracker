@@ -57,6 +57,42 @@
                                             value="<?php echo esc_attr($data->settings->gaMeasurementId); ?>" /> 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="lpwootrk-enable-ip-anonymization"><?php echo esc_html__('Enable IP Anonymization', 'livepayments-wootracker'); ?>:</label>
+                                    </th>
+                                    <td>
+                                        <input type="checkbox" 
+                                            name="enableIpAnonymization" 
+                                            id="lpwootrk-enable-ip-anonymization" 
+                                            value="1" 
+                                            <?php echo $data->settings->enableIpAnonymization ? 'checked="checked"' : ''; ?> /> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="lpwootrk-enable-enhanced-link-attr"><?php echo esc_html__('Enable Enhanced Link Attribution', 'livepayments-wootracker'); ?>:</label>
+                                    </th>
+                                    <td>
+                                        <input type="checkbox" 
+                                            name="enableEnhancedLinkAttribution" 
+                                            id="lpwootrk-enable-enhanced-link-attr" 
+                                            value="1" 
+                                            <?php echo $data->settings->enableEnhancedLinkAttribution ? 'checked="checked"' : ''; ?> /> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="lpwootrk-disable-advertising-feats"><?php echo esc_html__('Disable Advertising Features', 'livepayments-wootracker'); ?>:</label>
+                                    </th>
+                                    <td>
+                                        <input type="checkbox" 
+                                            name="disableAdvertisingFeatures" 
+                                            id="lpwootrk-disable-advertising-feats" 
+                                            value="1" 
+                                            <?php echo $data->settings->disableAdvertisingFeatures ? 'checked="checked"' : ''; ?> /> 
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>

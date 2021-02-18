@@ -21,9 +21,13 @@
 
         gtag('js', new Date());
         gtag('config', '<?php echo esc_js($data->gaMeasurementId); ?>', {
+            anonymize_ip: <?php echo $data->enableIpAnonymization ? 'true' : 'false'; ?>,
+            link_attribution: <?php echo $data->enableEnhancedLinkAttribution ? 'true' : 'false'; ?>,
+            allow_google_signals: <?php echo $data->disableAdvertisingFeatures ? 'true' : 'false'; ?>,
             <?php if (!empty($data->globalCurrency)): ?>
                 currency: '<?php echo esc_js($data->globalCurrency); ?>'
             <?php endif; ?>
+
         });
     </script>
 <?php endif; ?>

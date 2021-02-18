@@ -9,6 +9,12 @@ namespace LivepaymentsWootracker {
 
         const OPT_GA_MEASUREMENT_ID = 'gaMeasurementId';
 
+        const OPT_ENABLE_IP_ANONYMIZATION = 'enableIpAnonymization';
+
+        const OPT_ENABLE_ENHANCED_LINK_ATTRIBUTION = 'enableEnhancedLinkAttribution';
+
+        const OPT_DISABLE_ADVERTSING_FEATURES = 'disableAdvertisingFeatures';
+
         const OPT_TRACK_ORDER_RECEIVED = 'trackOrderReceived';
 
         const OPT_TRACK_CART_ITEM_ADDED = 'trackCartItemAdded';
@@ -68,6 +74,9 @@ namespace LivepaymentsWootracker {
             $data = new \stdClass();
             $data->gtmTrackingId = $this->getGtmTrackingId();
             $data->gaMeasurementId = $this->getGaMeasurementId();
+            $data->enableIpAnonymization = $this->getEnableIpAnonymization();
+            $data->enableEnhancedLinkAttribution = $this->getEnableEnhancedLinkAttribution();
+            $data->disableAdvertisingFeatures = $this->getDisableAdvertisingFeatures();
             $data->trackOrderReceived = $this->getTrackOrderReceived();
             $data->trackCartItemRemoved = $this->getTrackCartItemRemoved();
             $data->trackCartItemAdded = $this->getTrackCartItemAdded();
@@ -90,6 +99,30 @@ namespace LivepaymentsWootracker {
 
         public function setGaMeasurementId($value) {
             return $this->_setOption(self::OPT_GA_MEASUREMENT_ID, $value);
+        }
+
+        public function getEnableIpAnonymization() {
+            return $this->_getOption(self::OPT_ENABLE_IP_ANONYMIZATION, false);
+        }
+
+        public function setEnableIpAnonymization($value) {
+            return $this->_setOption(self::OPT_ENABLE_IP_ANONYMIZATION, $value);
+        }
+
+        public function getEnableEnhancedLinkAttribution() {
+            return $this->_getOption(self::OPT_ENABLE_ENHANCED_LINK_ATTRIBUTION, false);
+        }
+
+        public function setEnableEnhancedLinkAttribution($value) {
+            return $this->_setOption(self::OPT_ENABLE_ENHANCED_LINK_ATTRIBUTION, $value);
+        }
+
+        public function getDisableAdvertisingFeatures() {
+            return $this->_getOption(self::OPT_DISABLE_ADVERTSING_FEATURES, false);
+        }
+
+        public function setDisableAdvertisingFeatures($value) {
+            return $this->_setOption(self::OPT_DISABLE_ADVERTSING_FEATURES, $value);
         }
 
         public function getTrackOrderReceived() {

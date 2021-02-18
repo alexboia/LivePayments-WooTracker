@@ -30,11 +30,17 @@ namespace LivepaymentsWootracker\PluginModules {
          */
         protected $_viewEngine;
 
+        /**
+         * @var \LivepaymentsWootracker\Settings
+         */
+        protected $_settings;
+
         public function __construct(Plugin $plugin) {
             $this->_plugin = $plugin;
             $this->_env = $plugin->getEnv();
             $this->_mediaIncludes = $plugin->getMediaIncludes();
             $this->_viewEngine = $plugin->getViewEngine();
+            $this->_settings = $plugin->getSettings();
         }
 
         abstract public function load();
@@ -59,10 +65,6 @@ namespace LivepaymentsWootracker\PluginModules {
 
         protected function _getAjaxBaseUrl() {
             return $this->_env->getAjaxBaseUrl();
-        }
-
-        protected function _getSettings() {
-            return lpwootrk_get_settings();
         }
 
         protected function _getDb() {

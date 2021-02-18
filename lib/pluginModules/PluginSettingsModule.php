@@ -7,6 +7,7 @@ namespace LivepaymentsWootracker\PluginModules {
 
     use LivepaymentsCx\Settings;
     use LivepaymentsWootracker\Plugin;
+    use LivepaymentsWootracker\PluginFeatures;
     use LivepaymentsWootracker\PluginMenu;
 
     class PluginSettingsModule extends PluginModule {
@@ -27,9 +28,21 @@ namespace LivepaymentsWootracker\PluginModules {
         }
 
         public function load() {
+            $this->_ensureConsistentSettings();
             $this->_registerWebPageAssets();
             $this->_registerMenuHook();
             $this->_registerAjaxActions();
+        }
+
+        private function _ensureConsistentSettings() {
+            if (!$this->_allowSettingGtmTrackingId() && !empty($this->_settings->getGtmTrackingId())) {
+                $this->_settings->setGtmTrackingId('');
+                $this->_settings->saveSettings();
+            }
+        }
+
+        private function _allowSettingGtmTrackingId() {
+            return PluginFeatures::allowSettingGtmTrackingId();
         }
 
         private function _registerWebPageAssets() {
@@ -77,15 +90,16 @@ namespace LivepaymentsWootracker\PluginModules {
                 die;
             }
 
-            $settings = $this->_getSettings();
-
             $data = new \stdClass();
             $data->ajaxBaseUrl = $this->_getAjaxBaseUrl();
             $data->saveSettingsAction = self::ACTION_SAVE_SETTINGS;
             $data->saveSettingsNonce = $this->_saveSettingsAction
                 ->generateNonce();
 
-            $data->settings = $settings
+            $data->allowSettingGtmTrackingId = $this
+                ->_allowSettingGtmTrackingId();
+
+            $data->settings = $this->_settings
                 ->asPlainObject();
 
             echo $this->_viewEngine->renderView('lpwootrk-plugin-settings.php', 
@@ -97,10 +111,13 @@ namespace LivepaymentsWootracker\PluginModules {
                 die;
             }
 
-            $settings = $this->_getSettings();
+            $settings = $this->_settings;
             $response = lpwootrk_get_ajax_response();
 
-            $gtmTrackingId = $this->_getTextInputFromHttpPost('gtmTrackingId');
+            $gtmTrackingId = $this->_allowSettingGtmTrackingId() 
+                ? $this->_getTextInputFromHttpPost('gtmTrackingId')
+                : '';
+
             $gaMeasurementId = $this->_getTextInputFromHttpPost('gaMeasurementId');
 
             $trackOrderReceived = $this->_getBooleanFromHttpPost('trackOrderReceived');

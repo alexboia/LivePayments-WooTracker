@@ -5,6 +5,7 @@
 
 namespace LivepaymentsWootracker\TrackingComponents {
     use LivepaymentsWootracker\Plugin;
+    use LivepaymentsWootracker\PluginFeatures;
 
     class CoreTrackingScriptComponent extends TrackingComponent {
         const WP_HEAD_HOOK_PRIORITY = 9998;
@@ -59,11 +60,16 @@ namespace LivepaymentsWootracker\TrackingComponents {
         private function _getTrackingScriptViewModelData() {
             $data = new \stdClass();
             $data->gtmTrackingId = $this->_settings->getGtmTrackingId();
+            $data->allowSettingGtmTrackingId = $this->_allowSettingGtmTrackingId();
             $data->gaMeasurementId = $this->_settings->getGaMeasurementId();
             $data->globalCurrency = get_woocommerce_currency();
             $data->isOptOut = $this->_isOptOut();
             $data->optOutPropertyKey = $this->_getOptOutPropertyKey();
             return $data;
+        }
+
+        private function _allowSettingGtmTrackingId() {
+            return PluginFeatures::allowSettingGtmTrackingId();
         }
     }
 }

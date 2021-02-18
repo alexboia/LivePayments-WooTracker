@@ -7,7 +7,7 @@
 ?>
 
 <?php if (!empty($data->gaMeasurementId)): ?>
-    <?php if($data->isOptOut): ?>
+    <?php if ($data->isOptOut && !empty($data->optOutPropertyKey)): ?>
         <script>
             window['<?php echo esc_js($data->optOutPropertyKey); ?>'] = true;
         </script>

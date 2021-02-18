@@ -6,8 +6,6 @@
 namespace LivepaymentsWootracker\TrackingComponents {
     use LivepaymentsWootracker\Plugin;
     use LivepaymentsWootracker\TrackingComponents\Converters\ProductDataToTrackingScriptDataConverter;
-    use WC_Product_Grouped;
-    use WC_Product_Simple;
 
     class AddToCartFromProductListingsTrackingScriptComponent extends TrackingComponent {
         public function __construct(Plugin $plugin) {

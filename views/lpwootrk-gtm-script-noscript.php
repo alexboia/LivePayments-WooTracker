@@ -6,7 +6,7 @@
     defined('LPWOOTRK_LOADED') or die;
 ?>
 
-<?php if (!empty($data->gtmTrackingId)): ?>
+<?php if (!empty($data->gtmTrackingId) && $data->allowSettingGtmTrackingId): ?>
     <!-- Google Tag Manager (noscript) -->
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo esc_attr($data->gtmTrackingId); ?>" height="0" width="0" style="display:none;visibility:hidden"></iframe>

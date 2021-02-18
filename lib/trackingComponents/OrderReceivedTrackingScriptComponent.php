@@ -5,6 +5,7 @@
 
 namespace LivepaymentsWootracker\TrackingComponents {
     use LivepaymentsWootracker\Plugin;
+    use LivepaymentsWootracker\PluginFeatures;
     use LivepaymentsWootracker\TrackingComponents\Converters\OrderDataToTrackingScriptDataConverter;
     use LivepaymentsWootracker\WcOrderHandler;
 
@@ -31,21 +32,19 @@ namespace LivepaymentsWootracker\TrackingComponents {
 
         private function _shouldEnqueueTrackingScript() {
             return $this->_env->isAtOrderReceivedPage() || (
-                $this->_env->isAtOrderReceiptPage() && $this->_trackOrderReceiptEnabled()
+                $this->_env->isAtOrderReceiptPage() && $this->_isOrderReceiptTrackingEnabled()
             );
         }
 
         public function load() {
             $this->_registerOrderReceivedTracking();
-            if ($this->_trackOrderReceiptEnabled()) {
+            if ($this->_isOrderReceiptTrackingEnabled()) {
                 $this->_registerOrderReceiptTracking();
             }
         }
 
-        private function _trackOrderReceiptEnabled() {
-            return defined('LPWOOTRK_TRACK_ORDER_RECEIPT_ENABLED') 
-                ? constant('LPWOOTRK_TRACK_ORDER_RECEIPT_ENABLED') 
-                : true;
+        private function _isOrderReceiptTrackingEnabled() {
+            return PluginFeatures::isOrderReceiptTrackingEnabled();
         }
 
         private function _registerOrderReceivedTracking() {

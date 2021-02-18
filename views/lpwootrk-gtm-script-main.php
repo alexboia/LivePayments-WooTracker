@@ -6,7 +6,7 @@
     defined('LPWOOTRK_LOADED') or die;
 ?>
 
-<?php if (!empty($data->gtmTrackingId)): ?>
+<?php if (!empty($data->gtmTrackingId) && $data->allowSettingGtmTrackingId): ?>
     <!-- Google Tag Manager -->
     <script>
         (function(w,d,s,l,i){

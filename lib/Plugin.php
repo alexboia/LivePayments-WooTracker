@@ -39,10 +39,16 @@ class Plugin {
          */
         private $_pluginModules = array();
 
+        /**
+         * @var \LivepaymentsWootracker\Settings
+         */
+        private $_settings = null;
+
         public function __construct(array $options) {
             $this->_env = lpwootrk_get_env();
             $this->_installer = new Installer();
             $this->_viewEngine = new PluginViewEngine();
+            $this->_settings = lpwootrk_get_settings();
 
             $this->_pluginDependencyChecker = 
                 new PluginDependencyChecker(array(
@@ -238,7 +244,7 @@ class Plugin {
 		}
 
         public function getSettings() {
-            return lpwootrk_get_settings();
+            return $this->_settings;
         }
 
         private function _loadTextDomain() {

@@ -31,18 +31,20 @@
                     <tr>
                         <td>
                             <table class="form-table">
-                                <tr>
-                                    <th scope="row">
-                                        <label for="lpwootrk-gtm-tracking-id"><?php echo esc_html__('Enter the GTM Tracking Id', 'livepayments-wootracker'); ?>:</label>
-                                    </th>
-                                    <td>
-                                        <input type="text" 
-                                            name="gtmTrackingId" 
-                                            id="lpwootrk-gtm-tracking-id"
-                                            class="input-text regular-input"
-                                            value="<?php echo esc_attr($data->settings->gtmTrackingId); ?>" /> 
-                                    </td>
-                                </tr>
+                                <?php if ($data->allowSettingGtmTrackingId): ?>
+                                    <tr>
+                                        <th scope="row">
+                                            <label for="lpwootrk-gtm-tracking-id"><?php echo esc_html__('Enter the GTM Tracking Id', 'livepayments-wootracker'); ?>:</label>
+                                        </th>
+                                        <td>
+                                            <input type="text" 
+                                                name="gtmTrackingId" 
+                                                id="lpwootrk-gtm-tracking-id"
+                                                class="input-text regular-input"
+                                                value="<?php echo esc_attr($data->settings->gtmTrackingId); ?>" /> 
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                                 <tr>
                                     <th scope="row">
                                         <label for="lpwootrk-ga-measurement-id"><?php echo esc_html__('Enter the GA Measurement Id', 'livepayments-wootracker'); ?>:</label>

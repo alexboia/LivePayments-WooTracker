@@ -90,7 +90,7 @@ namespace LivepaymentsWootracker\PluginModules {
         }
 
         private function _getOptOutManager() {
-            $gaMeasurementId = $this->_getSettings()
+            $gaMeasurementId = $this->_settings
                 ->getGaMeasurementId();
 
             return !empty($gaMeasurementId)
@@ -99,7 +99,7 @@ namespace LivepaymentsWootracker\PluginModules {
         }
 
         private function _hasOptOutCapability() {
-            return !empty($this->_getSettings()->getGaMeasurementId());
+            return !empty($this->_settings->getGaMeasurementId());
         }
     }
 }

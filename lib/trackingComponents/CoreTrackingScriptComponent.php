@@ -16,8 +16,9 @@ namespace LivepaymentsWootracker\TrackingComponents {
         }
 
         public function isEnabled() {
-            return $this->_hasGtmTrackingId() 
-                || $this->_hasGaMeasurementId();
+            return ($this->_hasGtmTrackingId() 
+                    || $this->_hasGaMeasurementId()) 
+                && !$this->_isOptOut();
         }
 
         public function enqueueStyles() {

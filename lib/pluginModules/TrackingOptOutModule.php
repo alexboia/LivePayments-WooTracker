@@ -8,10 +8,19 @@ namespace LivepaymentsWootracker\PluginModules {
     use LivepaymentsWootracker\TrackingOptOutManager;
 
     class TrackingOptOutModule extends PluginModule {
+        const ACTION_OPT_OUT = 'lpwootrk_action_opt_out';
 
+        /**
+         * @var \LivepaymentsWootracker\WordPressAdminAjaxAction
+         */
+        private $_optOutAction;
 
         public function __construct(Plugin $plugin) {
             parent::__construct($plugin);
+            $this->_optOutAction = $this
+                ->_createAdminAjaxAction(self::ACTION_OPT_OUT, 
+                    array($this, 'handleOptOut'), 
+                    false);
         }
 
         public function load() {
@@ -28,13 +37,16 @@ namespace LivepaymentsWootracker\PluginModules {
         public function onFrontendEnqueueScripts() {
             if (is_single() || is_page()) {
                 if ($this->_hasOptOutCapability() && $this->_currentPostHasOptOutShortcode()) {
-
+                    $this->_mediaIncludes->includeFrontendOptOutFormScript(array());
                 }
             }
         }
 
         private function _currentPostHasOptOutShortcode() {
-            $post = isset($GLOBALS['post']) ? $GLOBALS['post'] : null;
+            $post = isset($GLOBALS['post']) 
+                ? $GLOBALS['post'] 
+                : null;
+
             return !empty($post) 
                 && !empty($post->post_content) 
                 && has_shortcode($post->post_content, 'lpwootrk_optout_form');
@@ -46,13 +58,19 @@ namespace LivepaymentsWootracker\PluginModules {
         }
 
         private function _registerAjaxActions() {
-
+            $this->_optOutAction
+                ->register();
         }
 
         public function showOptOutForm() {
             $content = '';
             if ($this->_hasOptOutCapability()) {
-                
+                $data = new \stdClass();
+                $data->isOptOut = $this->_getOptOutManager()->isOptOut();
+                $data->ajaxBaseUrl = $this->_getAjaxBaseUrl();
+                $data->optoutNonce = $this->_optOutAction->generateNonce();
+                $data->optoutAction = self::ACTION_OPT_OUT;
+                $content = $this->_viewEngine->renderView('lpwootrk-frontend-optout-form.php', $data);
             }
             return $content;
         }

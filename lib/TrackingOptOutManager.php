@@ -17,7 +17,7 @@ namespace LivepaymentsWootracker {
         }
     
         public function optOut() {
-            setcookie($this->_optoutPropertyKey, 'true', $this->_optoutUntil);
+            setcookie($this->_optoutPropertyKey, 'true', $this->_optoutUntil, '/');
         }
     
         public function isOptOut() {

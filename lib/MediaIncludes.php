@@ -35,6 +35,8 @@ namespace LivepaymentsWootracker {
 
         const JS_LPWOOTRK_TRACKING_SCRIPT_DATALAYER_DEBUGGING = 'lpwootrk-tracking-script-datalayer-debugging-js';
 
+        const JS_LPWOOTRK_FRONTEND_OPTOUT_FORM = 'lpwootrk-frontend-optout-form-js';
+
         const STYLE_TOASTR = 'toastr-css';
 
         const STYLE_LPWOOTRK_COMMON = 'lpwootrk-common-css';
@@ -158,6 +160,14 @@ namespace LivepaymentsWootracker {
                     self::JS_JQUERY,
                     self::JS_LPWOOTRK_TRACKING_SCRIPT
                 )
+            ),
+            self::JS_LPWOOTRK_FRONTEND_OPTOUT_FORM => array(
+                'path' => 'media/js/lpwootrk-frontend-optout-form.js',
+                'version' => LPWOOTRK_VERSION,
+                'deps' => array(
+                    self::JS_JQUERY,
+                    self::JS_URIJS
+                )
             )
         );
 
@@ -236,6 +246,18 @@ namespace LivepaymentsWootracker {
 
         public function includeDataLayerDebuggingScript() {
             $this->_manager->enqueueScript(self::JS_LPWOOTRK_TRACKING_SCRIPT_DATALAYER_DEBUGGING);
+        }
+
+        public function includeFrontendOptOutFormScript($frontendOptOutFormScriptLocalization) {
+            $this->_manager->enqueueScript(self::JS_LPWOOTRK_FRONTEND_OPTOUT_FORM);
+
+            if (!empty($frontendOptOutFormScriptLocalization)) {
+                wp_localize_script(self::JS_LPWOOTRK_FRONTEND_OPTOUT_FORM, 
+                    'lpwootrkFrontendOptOutFormL10n', 
+                    $frontendOptOutFormScriptLocalization);
+            }
+
+            $this->_includeCommonScriptSettings();
         }
 
         public function includeStyleCommon() {
